@@ -1,59 +1,82 @@
 import React from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
-
-import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
-import { useClientOnlyValue } from '@/components/useClientOnlyValue';
-
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
+import { Tabs } from 'expo-router';
+import { Icon } from '@gluestack-ui/themed';
+import {
+	ChefHat,
+	Activity,
+	Home,
+	Sparkles,
+	UserRound,
+} from 'lucide-react-native';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
-  return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="two"
-        options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      />
-    </Tabs>
-  );
+	return (
+		<Tabs>
+			<Tabs.Screen
+				name='index'
+				options={{
+					title: 'Home',
+					tabBarIcon: ({ color, focused }) => (
+						<Icon
+							as={Home}
+							size='xl'
+							color={`${focused ? '#F29D38' : color}`}
+						/>
+					),
+				}}
+			/>
+			<Tabs.Screen
+				name='ai-builder'
+				options={{
+					title: 'AI Builder',
+					tabBarIcon: ({ color, focused }) => (
+						<Icon
+							as={Sparkles}
+							size='xl'
+							color={`${focused ? '#F29D38' : color}`}
+						/>
+					),
+				}}
+			/>
+			<Tabs.Screen
+				name='nutrition'
+				options={{
+					title: 'Nutrition',
+					tabBarIcon: ({ color, focused }) => (
+						<Icon
+							as={ChefHat}
+							size='xl'
+							color={`${focused ? '#F29D38' : color}`}
+						/>
+					),
+				}}
+			/>
+			<Tabs.Screen
+				name='exercise'
+				options={{
+					title: 'Exercise',
+					tabBarIcon: ({ color, focused }) => (
+						<Icon
+							as={Activity}
+							size='xl'
+							color={`${focused ? '#F29D38' : color}`}
+						/>
+					),
+				}}
+			/>
+			<Tabs.Screen
+				name='you'
+				options={{
+					title: 'You',
+					tabBarIcon: ({ color, focused }) => (
+						<Icon
+							as={UserRound}
+							size='xl'
+							color={`${focused ? '#F29D38' : color}`}
+						/>
+					),
+				}}
+			/>
+		</Tabs>
+	);
 }
