@@ -41,7 +41,7 @@ export default function Nutrition() {
 	};
 
 	return (
-		<ScrollView>
+		<ScrollView backgroundColor='white'>
 			<VStack margin={20} space='md'>
 				<VStack space='sm'>
 					<Heading>Calories</Heading>
@@ -72,9 +72,9 @@ export default function Nutrition() {
 					{nutritionData.date}
 				</Heading>
 
-				<VStack>
+				<VStack gap={12}>
 					{nutritionData.meals.map((meal) => (
-						<MealCard meal={meal} />
+						<MealCard meal={meal} key={meal.type} />
 					))}
 				</VStack>
 			</VStack>
