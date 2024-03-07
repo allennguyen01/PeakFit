@@ -1,26 +1,48 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
-import { Icon } from '@gluestack-ui/themed';
-import {
-	ChefHat,
-	Activity,
-	Home,
-	Sparkles,
-	UserRound,
-} from 'lucide-react-native';
+import { Ionicons } from '@expo/vector-icons';
+
+function TabBarIcon({
+	names,
+	color,
+	focused,
+}: {
+	names: Array<
+		| 'home'
+		| 'home-outline'
+		| 'sparkles'
+		| 'sparkles-outline'
+		| 'nutrition'
+		| 'nutrition-outline'
+		| 'body'
+		| 'body-outline'
+		| 'person'
+		| 'person-outline'
+	>;
+	focused: boolean;
+	color: string;
+}) {
+	return (
+		<Ionicons
+			name={focused ? names[0] : names[1]}
+			size={focused ? 32 : 26}
+			color={`${focused ? '#F29D38' : color}`}
+		/>
+	);
+}
 
 export default function TabLayout() {
 	return (
-		<Tabs>
+		<Tabs screenOptions={{ tabBarActiveTintColor: '#F29D38' }}>
 			<Tabs.Screen
 				name='index'
 				options={{
 					title: 'Home',
 					tabBarIcon: ({ color, focused }) => (
-						<Icon
-							as={Home}
-							size='xl'
-							color={`${focused ? '#F29D38' : color}`}
+						<TabBarIcon
+							names={['home', 'home-outline']}
+							focused={focused}
+							color={color}
 						/>
 					),
 				}}
@@ -30,10 +52,10 @@ export default function TabLayout() {
 				options={{
 					title: 'AI Builder',
 					tabBarIcon: ({ color, focused }) => (
-						<Icon
-							as={Sparkles}
-							size='xl'
-							color={`${focused ? '#F29D38' : color}`}
+						<TabBarIcon
+							names={['sparkles', 'sparkles-outline']}
+							focused={focused}
+							color={color}
 						/>
 					),
 				}}
@@ -43,10 +65,10 @@ export default function TabLayout() {
 				options={{
 					title: 'Nutrition',
 					tabBarIcon: ({ color, focused }) => (
-						<Icon
-							as={ChefHat}
-							size='xl'
-							color={`${focused ? '#F29D38' : color}`}
+						<TabBarIcon
+							names={['nutrition', 'nutrition-outline']}
+							focused={focused}
+							color={color}
 						/>
 					),
 				}}
@@ -56,10 +78,10 @@ export default function TabLayout() {
 				options={{
 					title: 'Exercise',
 					tabBarIcon: ({ color, focused }) => (
-						<Icon
-							as={Activity}
-							size='xl'
-							color={`${focused ? '#F29D38' : color}`}
+						<TabBarIcon
+							names={['body', 'body-outline']}
+							focused={focused}
+							color={color}
 						/>
 					),
 				}}
@@ -69,10 +91,10 @@ export default function TabLayout() {
 				options={{
 					title: 'You',
 					tabBarIcon: ({ color, focused }) => (
-						<Icon
-							as={UserRound}
-							size='xl'
-							color={`${focused ? '#F29D38' : color}`}
+						<TabBarIcon
+							names={['person', 'person-outline']}
+							focused={focused}
+							color={color}
 						/>
 					),
 				}}
