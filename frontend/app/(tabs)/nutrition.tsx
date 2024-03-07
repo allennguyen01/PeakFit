@@ -11,6 +11,8 @@ import {
 	Box,
 } from '@gluestack-ui/themed';
 
+import LinearProgressTracker from '@/components/LinearProgressTracker';
+
 export default function Nutrition() {
 	const nutritionData = {
 		progress: 1550,
@@ -43,30 +45,7 @@ export default function Nutrition() {
 	return (
 		<ScrollView backgroundColor='white'>
 			<VStack margin={20} space='md'>
-				<VStack space='sm'>
-					<Heading>Calories</Heading>
-					<Progress
-						value={
-							(nutritionData.progress / nutritionData.goal) * 100
-						}
-					>
-						<ProgressFilledTrack bg='$amber500' />
-					</Progress>
-					<HStack justifyContent='space-between'>
-						<Text>
-							Remaining:{' '}
-							<Text fontWeight='$semibold'>
-								{nutritionData.goal - nutritionData.progress}
-							</Text>
-						</Text>
-						<Text>
-							Goal:{' '}
-							<Text fontWeight='$semibold'>
-								{nutritionData.goal}
-							</Text>
-						</Text>
-					</HStack>
-				</VStack>
+				<LinearProgressTracker plan={nutritionData} unit='Calories' />
 
 				<Heading size='2xl' textAlign='center'>
 					{nutritionData.date}
