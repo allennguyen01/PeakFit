@@ -46,11 +46,11 @@ export default function RootLayout() {
 function RootLayoutNav() {
 	return (
 		<GluestackUIProvider config={config}>
-			<Stack>
+			<Stack initialRouteName='onboarding'>
 				<Stack.Screen name='(tabs)' options={{ headerShown: false }} />
 				<Stack.Screen
-					name='modal'
-					options={{ presentation: 'modal' }}
+					name='onboarding'
+					options={{ headerShown: false }}
 				/>
 			</Stack>
 		</GluestackUIProvider>
