@@ -2,54 +2,261 @@ import { Link } from 'expo-router';
 
 import * as React from 'react';
 import {
-	ScrollView,
-	View,
 	Button,
 	ButtonText,
 	Heading,
+	Text,
+	Input,
+	InputField,
+	VStack,
+	Select,
+	SelectTrigger,
+	SelectInput,
+	SelectIcon,
+	Icon,
+	ChevronDownIcon,
+	SelectPortal,
+	SelectBackdrop,
+	SelectContent,
+	SelectDragIndicatorWrapper,
+	SelectDragIndicator,
+	SelectItem,
+	Checkbox,
+	CheckboxIndicator,
+	CheckboxLabel,
+	CheckboxIcon,
+	CheckIcon,
+	RadioGroup,
+	Radio,
+	RadioIndicator,
+	RadioIcon,
+	RadioLabel,
+	CircleIcon,
 } from '@gluestack-ui/themed';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import NumberInput from '@/components/NumberInput';
+
 function SignUp({ navigation }) {
 	return (
-		<View>
-			<Heading>Welcome to Muscle Momentum</Heading>
-			<Button onPress={() => navigation.navigate('You')}>
+		<VStack margin={20} justifyContent='space-between' height='$full'>
+			<VStack space='lg'>
+				<Heading textAlign='center'>Create your account!</Heading>
+				<Input
+					variant='outline'
+					size='md'
+					isDisabled={false}
+					isInvalid={false}
+					isReadOnly={false}
+				>
+					<InputField
+						placeholder='Email Address'
+						keyboardType='email-address'
+					/>
+				</Input>
+				<Input
+					variant='outline'
+					size='md'
+					isDisabled={false}
+					isInvalid={false}
+					isReadOnly={false}
+				>
+					<InputField
+						placeholder='Password'
+						keyboardType='visible-password'
+					/>
+				</Input>
+			</VStack>
+
+			<Button onPress={() => navigation.navigate('You')} mb={50}>
 				<ButtonText>Next</ButtonText>
 			</Button>
-		</View>
+		</VStack>
 	);
 }
 
 function You({ navigation }) {
 	return (
-		<View>
-			<Button onPress={() => navigation.navigate('Goals')}>
+		<VStack margin={20} justifyContent='space-between' height='$full'>
+			<VStack space='lg'>
+				<NumberInput
+					title='How much do you weigh?'
+					placeholder='Enter weight here'
+					unit='kg'
+				/>
+
+				<NumberInput
+					title='How tall are you?'
+					placeholder='Enter height here'
+					unit='cm'
+				/>
+
+				<NumberInput
+					title='How old are you?'
+					placeholder='Enter age here'
+					unit=''
+				/>
+
+				<VStack space='sm'>
+					<Text textAlign='center'>What is your sex?</Text>
+					<Select>
+						<SelectTrigger variant='outline' size='md'>
+							<SelectInput placeholder='Select option' />
+							<SelectIcon mr='$3'>
+								<Icon as={ChevronDownIcon} />
+							</SelectIcon>
+						</SelectTrigger>
+						<SelectPortal>
+							<SelectBackdrop />
+							<SelectContent>
+								<SelectDragIndicatorWrapper>
+									<SelectDragIndicator />
+								</SelectDragIndicatorWrapper>
+								<SelectItem label='Male' value='male' />
+								<SelectItem label='Female' value='female' />
+							</SelectContent>
+						</SelectPortal>
+					</Select>
+				</VStack>
+
+				<VStack space='sm'>
+					<VStack>
+						<Text textAlign='center'>
+							What is your activity level per week?
+						</Text>
+						<Text textAlign='center'>
+							(hours of exercise/sports week)
+						</Text>
+					</VStack>
+					<Select>
+						<SelectTrigger variant='outline' size='md'>
+							<SelectInput placeholder='Select option' />
+							<SelectIcon mr='$3'>
+								<Icon as={ChevronDownIcon} />
+							</SelectIcon>
+						</SelectTrigger>
+						<SelectPortal>
+							<SelectBackdrop />
+							<SelectContent>
+								<SelectDragIndicatorWrapper>
+									<SelectDragIndicator />
+								</SelectDragIndicatorWrapper>
+								<SelectItem
+									label='None (little to no physical activity)'
+									value='none'
+								/>
+								<SelectItem
+									label='A little (1 to 3 hours)'
+									value='little'
+								/>
+								<SelectItem
+									label='Some (4 to 6 hours)'
+									value='some'
+								/>
+								<SelectItem
+									label='A lot (7 to 9 hours per week)'
+									value='lot'
+								/>
+								<SelectItem
+									label='A ton (10+ hours per week)'
+									value='ton'
+								/>
+							</SelectContent>
+						</SelectPortal>
+					</Select>
+				</VStack>
+			</VStack>
+
+			<Button onPress={() => navigation.navigate('Goals')} mb={50}>
 				<ButtonText>Next</ButtonText>
 			</Button>
-		</View>
+		</VStack>
 	);
 }
 
 function Goals({ navigation }) {
+	const goals = ['Lose weight', 'Maintain weight', 'Gain weight'];
+
 	return (
-		<View>
-			<Button onPress={() => navigation.navigate('Nutrition')}>
+		<VStack margin={20} justifyContent='space-between' height='$full'>
+			<VStack space='lg'>
+				<Text textAlign='center' fontSize='$lg'>
+					What is your fitness goal?
+				</Text>
+
+				<RadioGroup gap={10}>
+					{goals.map((goal) => (
+						<Radio
+							value={goal}
+							size='md'
+							isInvalid={false}
+							isDisabled={false}
+							borderColor='$borderDark500'
+							borderWidth={2}
+							padding={10}
+							borderRadius={10}
+						>
+							<RadioIndicator mr='$2'>
+								<RadioIcon as={CircleIcon} strokeWidth={1} />
+							</RadioIndicator>
+							<RadioLabel>{goal}</RadioLabel>
+						</Radio>
+					))}
+				</RadioGroup>
+			</VStack>
+
+			<Button onPress={() => navigation.navigate('Nutrition')} mb={50}>
 				<ButtonText>Next</ButtonText>
 			</Button>
-		</View>
+		</VStack>
 	);
 }
 
 function Nutrition({ navigation }) {
+	const dietaryRestrictions = [
+		'Vegetarian',
+		'Vegan',
+		'Halal',
+		'Kosher',
+		'Gluten-free',
+		'Diary-free',
+		'Diabetic',
+	];
+
 	return (
-		<View>
+		<VStack margin={20} justifyContent='space-between' height='$full'>
+			<VStack space='lg'>
+				<Text textAlign='center' fontSize='$lg'>
+					Do you have any dietary restrictions?
+				</Text>
+				<VStack space='md'>
+					{dietaryRestrictions.map((dr) => (
+						<Checkbox
+							size='md'
+							isInvalid={false}
+							isDisabled={false}
+							value={dr}
+							aria-label={dr}
+							borderColor='$borderDark500'
+							borderWidth={2}
+							padding={10}
+							borderRadius={10}
+						>
+							<CheckboxIndicator mr='$2'>
+								<CheckboxIcon as={CheckIcon} />
+							</CheckboxIndicator>
+							<CheckboxLabel>{dr}</CheckboxLabel>
+						</Checkbox>
+					))}
+				</VStack>
+			</VStack>
+
 			<Link href='/(tabs)' asChild>
-				<Button>
+				<Button mb={50}>
 					<ButtonText>Home</ButtonText>
 				</Button>
 			</Link>
-		</View>
+		</VStack>
 	);
 }
 
