@@ -32,6 +32,7 @@ import {
 	RadioIcon,
 	RadioLabel,
 	CircleIcon,
+	ScrollView,
 } from '@gluestack-ui/themed';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -39,7 +40,14 @@ import NumberInput from '@/components/NumberInput';
 
 function SignUp({ navigation }) {
 	return (
-		<VStack margin={20} justifyContent='space-between' height='$full'>
+		<VStack
+			padding={20}
+			justifyContent='space-between'
+			height='$full'
+			backgroundColor='white'
+			borderTopColor='black'
+			borderTopWidth={0.5}
+		>
 			<VStack space='lg'>
 				<Heading textAlign='center'>Create your account!</Heading>
 				<Input
@@ -77,7 +85,14 @@ function SignUp({ navigation }) {
 
 function You({ navigation }) {
 	return (
-		<VStack margin={20} justifyContent='space-between' height='$full'>
+		<VStack
+			padding={20}
+			justifyContent='space-between'
+			height='$full'
+			backgroundColor='white'
+			borderTopColor='black'
+			borderTopWidth={0.5}
+		>
 			<VStack space='lg'>
 				<NumberInput
 					title='How much do you weigh?'
@@ -98,7 +113,9 @@ function You({ navigation }) {
 				/>
 
 				<VStack space='sm'>
-					<Text textAlign='center'>What is your sex?</Text>
+					<Text textAlign='center' fontSize='$lg'>
+						What is your sex?
+					</Text>
 					<Select>
 						<SelectTrigger variant='outline' size='md'>
 							<SelectInput placeholder='Select option' />
@@ -120,11 +137,11 @@ function You({ navigation }) {
 				</VStack>
 
 				<VStack space='sm'>
-					<VStack>
-						<Text textAlign='center'>
+					<VStack space='sm'>
+						<Text textAlign='center' fontSize='$lg'>
 							What is your activity level per week?
 						</Text>
-						<Text textAlign='center'>
+						<Text textAlign='center' text='$secondary400'>
 							(hours of exercise/sports week)
 						</Text>
 					</VStack>
@@ -178,7 +195,14 @@ function Goals({ navigation }) {
 	const goals = ['Lose weight', 'Maintain weight', 'Gain weight'];
 
 	return (
-		<VStack margin={20} justifyContent='space-between' height='$full'>
+		<VStack
+			padding={20}
+			justifyContent='space-between'
+			height='$full'
+			backgroundColor='white'
+			borderTopColor='black'
+			borderTopWidth={0.5}
+		>
 			<VStack space='lg'>
 				<Text textAlign='center' fontSize='$lg'>
 					What is your fitness goal?
@@ -195,6 +219,7 @@ function Goals({ navigation }) {
 							borderWidth={2}
 							padding={10}
 							borderRadius={10}
+							key={goal}
 						>
 							<RadioIndicator mr='$2'>
 								<RadioIcon as={CircleIcon} strokeWidth={1} />
@@ -224,7 +249,14 @@ function Nutrition({ navigation }) {
 	];
 
 	return (
-		<VStack margin={20} justifyContent='space-between' height='$full'>
+		<VStack
+			padding={20}
+			justifyContent='space-between'
+			height='$full'
+			backgroundColor='white'
+			borderTopColor='black'
+			borderTopWidth={0.5}
+		>
 			<VStack space='lg'>
 				<Text textAlign='center' fontSize='$lg'>
 					Do you have any dietary restrictions?
@@ -232,6 +264,7 @@ function Nutrition({ navigation }) {
 				<VStack space='md'>
 					{dietaryRestrictions.map((dr) => (
 						<Checkbox
+							key={dr}
 							size='md'
 							isInvalid={false}
 							isDisabled={false}

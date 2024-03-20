@@ -12,7 +12,9 @@ export default function NumberInput({
 }) {
 	return (
 		<VStack space='sm'>
-			<Text textAlign='center'>{title}</Text>
+			<Text textAlign='center' fontSize='$lg'>
+				{title}
+			</Text>
 			<HStack
 				display='flex'
 				justifyContent='center'
