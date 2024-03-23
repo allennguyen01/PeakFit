@@ -1,14 +1,17 @@
 import { Text, Input, InputField, VStack, HStack } from '@gluestack-ui/themed';
 import React from 'react';
+import { useState } from 'react';
 
 export default function NumberInput({
 	title,
 	placeholder,
 	unit,
+	onTextChange,
 }: {
 	title: string;
 	placeholder: string;
 	unit: string;
+	onTextChange: (text: string) => void;
 }) {
 	return (
 		<VStack space='sm'>
@@ -33,6 +36,7 @@ export default function NumberInput({
 						placeholder={placeholder}
 						keyboardType='number-pad'
 						textAlign='center'
+						onChangeText={onTextChange}
 					/>
 				</Input>
 				<Text>{unit}</Text>

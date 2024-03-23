@@ -1,6 +1,9 @@
 import { Link } from 'expo-router';
 
 import * as React from 'react';
+import { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {
 	Button,
 	ButtonText,
@@ -37,6 +40,23 @@ import {
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import NumberInput from '@/components/NumberInput';
+
+import {
+	PersonDetails,
+	calculateMacros,
+	Sex,
+	ActivityLevel,
+	Goal,
+} from '@/functions/calculateMacros';
+
+const person: PersonDetails = {
+	age: 0,
+	sex: null,
+	weightKg: 0,
+	heightCm: 0,
+	activityLevel: null,
+	goal: null,
+};
 
 function SignUp({ navigation }) {
 	return (
@@ -84,6 +104,22 @@ function SignUp({ navigation }) {
 }
 
 function You({ navigation }) {
+	const [weightKg, setWeightKg] = useState('');
+	const [heightCm, setHeightCm] = useState('');
+	const [age, setAge] = useState('');
+	const [sex, setSex] = useState('');
+	const [activityLevel, setActivityLevel] = useState('');
+
+	const handleWeightChange = (text: string) => {
+		setWeightKg(text);
+	};
+	const handleHeightChange = (text: string) => {
+		setHeightCm(text);
+	};
+	const handleAgeChange = (text: string) => {
+		setAge(text);
+	};
+
 	return (
 		<VStack
 			padding={20}
@@ -98,25 +134,28 @@ function You({ navigation }) {
 					title='How much do you weigh?'
 					placeholder='Enter weight here'
 					unit='kg'
+					onTextChange={handleWeightChange}
 				/>
 
 				<NumberInput
 					title='How tall are you?'
 					placeholder='Enter height here'
 					unit='cm'
+					onTextChange={handleHeightChange}
 				/>
 
 				<NumberInput
 					title='How old are you?'
 					placeholder='Enter age here'
 					unit=''
+					onTextChange={handleAgeChange}
 				/>
 
 				<VStack space='sm'>
 					<Text textAlign='center' fontSize='$lg'>
 						What is your sex?
 					</Text>
-					<Select>
+					<Select selectedValue={sex} onValueChange={setSex}>
 						<SelectTrigger variant='outline' size='md'>
 							<SelectInput placeholder='Select option' />
 							<SelectIcon mr='$3'>
@@ -145,7 +184,10 @@ function You({ navigation }) {
 							(hours of exercise/sports week)
 						</Text>
 					</VStack>
-					<Select>
+					<Select
+						selectedValue={activityLevel}
+						onValueChange={setActivityLevel}
+					>
 						<SelectTrigger variant='outline' size='md'>
 							<SelectInput placeholder='Select option' />
 							<SelectIcon mr='$3'>
@@ -184,7 +226,18 @@ function You({ navigation }) {
 				</VStack>
 			</VStack>
 
-			<Button onPress={() => navigation.navigate('Goals')} mb={50}>
+			<Button
+				onPress={() => {
+					navigation.navigate('Goals');
+
+					person.weightKg = Number(weightKg);
+					person.heightCm = Number(heightCm);
+					person.age = Number(age);
+					person.sex = sex as Sex;
+					person.activityLevel = activityLevel as ActivityLevel;
+				}}
+				mb={50}
+			>
 				<ButtonText>Next</ButtonText>
 			</Button>
 		</VStack>
@@ -192,7 +245,13 @@ function You({ navigation }) {
 }
 
 function Goals({ navigation }) {
-	const goals = ['Lose weight', 'Maintain weight', 'Gain weight'];
+	const goals = [
+		{ title: 'Lose fat', value: 'lostFat' },
+		{ title: 'Maintain weight', value: 'maintain' },
+		{ title: 'Gain muscle', value: 'gainMuscle' },
+	];
+
+	const [goal, setGoal] = useState('');
 
 	return (
 		<VStack
@@ -208,10 +267,10 @@ function Goals({ navigation }) {
 					What is your fitness goal?
 				</Text>
 
-				<RadioGroup gap={10}>
-					{goals.map((goal) => (
+				<RadioGroup gap={10} value={goal} onChange={setGoal}>
+					{goals.map((g) => (
 						<Radio
-							value={goal}
+							value={g.value}
 							size='md'
 							isInvalid={false}
 							isDisabled={false}
@@ -219,18 +278,52 @@ function Goals({ navigation }) {
 							borderWidth={2}
 							padding={10}
 							borderRadius={10}
-							key={goal}
+							key={g.title}
 						>
 							<RadioIndicator mr='$2'>
 								<RadioIcon as={CircleIcon} strokeWidth={1} />
 							</RadioIndicator>
-							<RadioLabel>{goal}</RadioLabel>
+							<RadioLabel>{g.title}</RadioLabel>
 						</Radio>
 					))}
 				</RadioGroup>
 			</VStack>
 
-			<Button onPress={() => navigation.navigate('Nutrition')} mb={50}>
+			<Button
+				onPress={() => {
+					navigation.navigate('Nutrition');
+					person.goal = goal as Goal;
+
+					const storeData = async (key: string, value: object) => {
+						try {
+							const jsonValue = JSON.stringify(value);
+							await AsyncStorage.setItem(key, jsonValue);
+						} catch (e) {
+							// saving error
+							console.error(e);
+						}
+					};
+
+					storeData('person', person);
+
+					const getData = async (key: string) => {
+						try {
+							const jsonValue = await AsyncStorage.getItem(key);
+							return jsonValue != null
+								? JSON.parse(jsonValue)
+								: null;
+						} catch (e) {
+							// error reading value
+							console.error(e);
+						}
+					};
+
+					getData('person').then((value) => {
+						console.log(value);
+					});
+				}}
+				mb={50}
+			>
 				<ButtonText>Next</ButtonText>
 			</Button>
 		</VStack>
