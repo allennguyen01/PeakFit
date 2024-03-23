@@ -13,9 +13,9 @@ type Goal = 'loseFat' | 'maintain' | 'gainMuscle';
 
 interface NutritionalNeeds {
 	calories: number;
-	proteinGrams: number;
-	carbsGrams: number;
-	fatGrams: number;
+	protein: number;
+	carbs: number;
+	fat: number;
 }
 
 function calculateMacros(person: PersonDetails): NutritionalNeeds {
@@ -55,15 +55,15 @@ function calculateMacros(person: PersonDetails): NutritionalNeeds {
 	}
 
 	// Simplistic distribution of macros: 40% carbs, 30% protein, 30% fats
-	const proteinGrams = (calories * 0.3) / 4; // There are 4 calories in a gram of protein
-	const carbsGrams = (calories * 0.4) / 4; // There are 4 calories in a gram of carb
-	const fatGrams = (calories * 0.3) / 9; // There are 9 calories in a gram of fat
+	const protein = (calories * 0.3) / 4; // There are 4 calories in a gram of protein
+	const carbs = (calories * 0.4) / 4; // There are 4 calories in a gram of carb
+	const fat = (calories * 0.3) / 9; // There are 9 calories in a gram of fat
 
 	return {
 		calories,
-		proteinGrams,
-		carbsGrams,
-		fatGrams,
+		protein,
+		carbs,
+		fat,
 	};
 }
 

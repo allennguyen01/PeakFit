@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { useEffect } from 'react';
+import axios from 'axios';
 import { useWindowDimensions } from 'react-native';
 import {
 	Text,
@@ -12,53 +14,92 @@ import {
 	Box,
 	Image,
 	ScrollView,
+	set,
 } from '@gluestack-ui/themed';
 import { FontAwesome6 } from '@expo/vector-icons';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { calculateMacros } from '@/functions/calculateMacros';
 
 function Nutrition() {
-	const nutritionData = [
-		{
-			id: 0,
-			date: new Date('2024-03-04'),
-			calories: 2500,
-			exercises: [
-				'Tomato omelette',
-				'Habanero chicken burrito bowl',
-				'Chicken pesto pasta',
-			],
-		},
-		{
-			id: 1,
-			date: new Date('2024-03-05'),
-			calories: 2500,
-			exercises: [
-				'Tomato omelette',
-				'Habanero chicken burrito bowl',
-				'Chicken pesto pasta',
-			],
-		},
-		{
-			id: 2,
-			date: new Date('2024-03-06'),
-			calories: 2500,
-			exercises: [
-				'Tomato omelette',
-				'Habanero chicken burrito bowl',
-				'Chicken pesto pasta',
-			],
-		},
-		{
-			id: 3,
-			date: new Date('2024-03-07'),
-			calories: 2500,
-			exercises: [
-				'Tomato omelette',
-				'Habanero chicken burrito bowl',
-				'Chicken pesto pasta',
-			],
-		},
-	];
+	const [nutritionData, setNutritionData] = React.useState<Array<Object>>([]);
+
+	useEffect(() => {
+		// Set up dummy data
+		setNutritionData([
+			{
+				id: 0,
+				date: new Date('2024-03-04'),
+				calories: 2500,
+				meals: [
+					'Tomato omelette',
+					'Habanero chicken burrito bowl',
+					'Chicken pesto pasta',
+				],
+			},
+			{
+				id: 1,
+				date: new Date('2024-03-05'),
+				calories: 2500,
+				meals: [
+					'Tomato omelette',
+					'Habanero chicken burrito bowl',
+					'Chicken pesto pasta',
+				],
+			},
+			{
+				id: 2,
+				date: new Date('2024-03-06'),
+				calories: 2500,
+				meals: [
+					'Tomato omelette',
+					'Habanero chicken burrito bowl',
+					'Chicken pesto pasta',
+				],
+			},
+			{
+				id: 3,
+				date: new Date('2024-03-07'),
+				calories: 2500,
+				meals: [
+					'Tomato omelette',
+					'Habanero chicken burrito bowl',
+					'Chicken pesto pasta',
+				],
+			},
+		]);
+	}, []);
+
+	const [userData, setUserData] = React.useState<null | {}>(null);
+
+	async function getNutritionData() {
+		try {
+			const data = await AsyncStorage.getItem('person');
+			const parsedData = data != null ? JSON.parse(data) : null;
+			setUserData(parsedData);
+		} catch (e) {
+			console.error(e);
+		}
+
+		console.log(userData);
+
+		const userMacros = calculateMacros({ ...userData });
+
+		console.log(userMacros);
+
+		const headers = {
+			'Content-Type': 'application/json',
+		};
+
+		const dietPlan = await axios.post(
+			`http://128.189.193.27:3000/create-diet-plan`,
+			JSON.stringify(userMacros),
+			{ headers },
+		);
+
+		console.log(dietPlan.data);
+		// setNutritionData(dietPlan.data);
+	}
 
 	return (
 		<ScrollView backgroundColor='white'>
@@ -79,6 +120,7 @@ function Nutrition() {
 					shadowRadius={10}
 					isDisabled={false}
 					isFocusVisible={false}
+					onPress={getNutritionData}
 				>
 					<FontAwesome6
 						name='wand-magic-sparkles'
@@ -143,7 +185,7 @@ function NutritionCard({ nutrition }: { nutrition: Nutrition }) {
 
 				<Box flexDirection='row' flexShrink={1}>
 					<Text size='sm' maxWidth='auto'>
-						{nutrition.exercises.join(', ')}
+						{nutrition.meals.join(', ')}
 					</Text>
 				</Box>
 			</VStack>
@@ -154,7 +196,7 @@ function NutritionCard({ nutrition }: { nutrition: Nutrition }) {
 interface Nutrition {
 	date: Date;
 	calories: number;
-	exercises: Array<string>;
+	meals: Array<string>;
 }
 
 function Exercise() {
