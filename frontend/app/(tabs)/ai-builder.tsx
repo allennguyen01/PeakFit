@@ -20,54 +20,16 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { calculateMacros } from '@/functions/calculateMacros';
+import sampleNutritionData from '@/sample_data/sampleDietResponse';
 
 function Nutrition() {
-	const [nutritionData, setNutritionData] = React.useState<Array<Object>>([]);
+	const [nutritionData, setNutritionData] = React.useState<Array<Nutrition>>(
+		[],
+	);
 
 	useEffect(() => {
 		// Set up dummy data
-		setNutritionData([
-			{
-				id: 0,
-				date: new Date('2024-03-04'),
-				calories: 2500,
-				meals: [
-					'Tomato omelette',
-					'Habanero chicken burrito bowl',
-					'Chicken pesto pasta',
-				],
-			},
-			{
-				id: 1,
-				date: new Date('2024-03-05'),
-				calories: 2500,
-				meals: [
-					'Tomato omelette',
-					'Habanero chicken burrito bowl',
-					'Chicken pesto pasta',
-				],
-			},
-			{
-				id: 2,
-				date: new Date('2024-03-06'),
-				calories: 2500,
-				meals: [
-					'Tomato omelette',
-					'Habanero chicken burrito bowl',
-					'Chicken pesto pasta',
-				],
-			},
-			{
-				id: 3,
-				date: new Date('2024-03-07'),
-				calories: 2500,
-				meals: [
-					'Tomato omelette',
-					'Habanero chicken burrito bowl',
-					'Chicken pesto pasta',
-				],
-			},
-		]);
+		setNutritionData(sampleNutritionData.dietPlan.meals);
 	}, []);
 
 	const [userData, setUserData] = React.useState<null | {}>(null);
@@ -97,9 +59,44 @@ function Nutrition() {
 			{ headers },
 		);
 
-		console.log(dietPlan.data);
-		// setNutritionData(dietPlan.data);
+		console.log(dietPlan.data.dietPlan.meals);
+		setNutritionData(dietPlan.data.dietPlan.meals);
 	}
+
+	function getCurrentDateFormatted() {
+		const days = [
+			'Sunday',
+			'Monday',
+			'Tuesday',
+			'Wednesday',
+			'Thursday',
+			'Friday',
+			'Saturday',
+		];
+		const months = [
+			'January',
+			'February',
+			'March',
+			'April',
+			'May',
+			'June',
+			'July',
+			'August',
+			'September',
+			'October',
+			'November',
+			'December',
+		];
+
+		const now = new Date();
+		const dayOfWeek = days[now.getDay()];
+		const month = months[now.getMonth()];
+		const dayOfMonth = now.getDate();
+
+		return `${dayOfWeek}, ${month} ${dayOfMonth}`;
+	}
+
+	const currentDate = getCurrentDateFormatted();
 
 	return (
 		<ScrollView backgroundColor='white'>
@@ -131,12 +128,12 @@ function Nutrition() {
 				</Button>
 
 				<Heading size='xl' fontWeight='600' textAlign='center'>
-					Week of Mar 3 - Mar 9
+					{currentDate}
 				</Heading>
 
 				<VStack gap={12}>
 					{nutritionData.map((n) => (
-						<NutritionCard nutrition={n} key={n.id} />
+						<NutritionCard nutrition={n} key={n.mealNumber} />
 					))}
 				</VStack>
 			</VStack>
@@ -145,15 +142,9 @@ function Nutrition() {
 }
 
 function NutritionCard({ nutrition }: { nutrition: Nutrition }) {
-	const weekday = [
-		'Sunday',
-		'Monday',
-		'Tuesday',
-		'Wednesday',
-		'Thursday',
-		'Friday',
-		'Saturday',
-	];
+	const totalCalories = nutrition.ingredients.reduce((total, ingredient) => {
+		return total + ingredient.calories;
+	}, 0);
 
 	return (
 		<Card
@@ -165,27 +156,27 @@ function NutritionCard({ nutrition }: { nutrition: Nutrition }) {
 			margin='$0'
 			maxWidth='$full'
 			display='flex'
-			key={nutrition.date.toISOString()}
+			key={nutrition.mealNumber}
 		>
 			<Image
 				source={{
 					uri: 'https://i0.wp.com/www.sidekickinteractive.com/wp-content/uploads/2023/04/placeholder-3.png',
 				}}
-				alt={nutrition.date.toISOString()}
+				alt={nutrition.mealNumber.toString()}
 			/>
 			<VStack flexShrink={1} space='sm'>
 				<VStack>
 					<Heading size='lg' marginBottom='$0'>
-						{weekday[nutrition.date.getDay()]}
+						Meal #{[nutrition.mealNumber]}
 					</Heading>
-					<Text fontWeight='$medium'>
-						{nutrition.calories} calories
-					</Text>
+					<Text fontWeight='$medium'>{totalCalories} calories</Text>
 				</VStack>
 
 				<Box flexDirection='row' flexShrink={1}>
 					<Text size='sm' maxWidth='auto'>
-						{nutrition.meals.join(', ')}
+						{nutrition.ingredients
+							.map((ing) => ing.food)
+							.join(', ')}
 					</Text>
 				</Box>
 			</VStack>
@@ -194,9 +185,20 @@ function NutritionCard({ nutrition }: { nutrition: Nutrition }) {
 }
 
 interface Nutrition {
-	date: Date;
+	mealNumber: number;
+	instructions: string;
+	ingredients: Array<Ingredient>;
+}
+
+interface Ingredient {
+	food: string;
+	quantity: string;
 	calories: number;
-	meals: Array<string>;
+	macros: {
+		protein: string;
+		carbs: string;
+		fat: string;
+	};
 }
 
 function Exercise() {
