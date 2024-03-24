@@ -1,6 +1,7 @@
 import express from "express";
 import OpenAIApi from "openai";
 import dotenv from "dotenv";
+import cors from "cors";
 
 dotenv.config();
 
@@ -13,6 +14,32 @@ const openai = new OpenAIApi({
 
 // Middleware
 app.use(express.json());
+app.use(cors());
+
+app.get("/generate-diet-image", async (req, res) => {
+  const { instructions } = req.query;
+
+  try {
+    const dietPlan = await generatedImage(instructions);
+
+    res.send(dietPlan);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error.message);
+  }
+});
+
+const generatedImage = async (instructions) => {
+  const image = await openai.images.generate({
+    model: "dall-e-3",
+    prompt:
+      "You are an experienced chef. Generate an image of the end product of a meal which was made with the following instructions: " +
+      instructions,
+    quality: "hd",
+    style: "natural",
+  });
+  return image.data[0].url;
+};
 
 // Endpoint to receive parameters and return diet plan
 app.post("/create-diet-plan", async (req, res) => {
