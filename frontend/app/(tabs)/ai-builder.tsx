@@ -206,7 +206,7 @@ function Exercise() {
 	const [exerciseData, setExerciseData] = React.useState<Array<Exercise>>([]);
 
 	useEffect(() => {
-		setExerciseData(sampleExerciseData.workoutPlan[0].days);
+		setExerciseData(sampleExerciseData.workoutPlan);
 	}, []);
 
 	return (
@@ -252,6 +252,10 @@ function Exercise() {
 }
 
 function ExerciseCard({ exercise }: { exercise: Exercise }) {
+	const totalDuration = exercise.workouts.reduce((total, workout) => {
+		return total + workout.duration;
+	}, 0);
+
 	return (
 		<Card
 			size='md'
@@ -274,9 +278,7 @@ function ExerciseCard({ exercise }: { exercise: Exercise }) {
 					<Heading size='lg' marginBottom='$0'>
 						{exercise.day}
 					</Heading>
-					{/* <Text fontWeight='$medium'>
-						{exercise.durationMinutes} minutes
-					</Text> */}
+					<Text fontWeight='$medium'>{totalDuration} minutes</Text>
 				</VStack>
 
 				<Box flexDirection='row' flexShrink={1}>
@@ -297,7 +299,7 @@ interface Exercise {
 interface Workout {
 	name: string;
 	description: string;
-	duration: string;
+	duration: number;
 	intensity: string;
 }
 
