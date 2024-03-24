@@ -21,6 +21,8 @@ import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { calculateMacros } from '@/functions/calculateMacros';
 import sampleNutritionData from '@/sample_data/sampleDietResponse';
+import sampleExerciseData from '@/sample_data/sampleExerciseResponse';
+import { getData } from '@/functions/AsyncStorage';
 
 function Nutrition() {
 	const [nutritionData, setNutritionData] = React.useState<Array<Nutrition>>(
@@ -202,43 +204,30 @@ interface Ingredient {
 }
 
 function Exercise() {
-	const exerciseData = [
-		{
-			id: 0,
-			date: new Date('2024-03-04'),
-			durationMinutes: 60,
-			split: 'Legs',
-			exercises: ['Squats', 'Leg Extensions', 'Bulgarian Split Squats'],
-		},
-		{
-			id: 1,
-			date: new Date('2024-03-05'),
-			durationMinutes: 60,
-			split: 'Legs',
-			exercises: ['Squats', 'Leg Extensions', 'Bulgarian Split Squats'],
-		},
-		{
-			id: 2,
-			date: new Date('2024-03-06'),
-			durationMinutes: 60,
-			split: 'Legs',
-			exercises: ['Squats', 'Leg Extensions', 'Bulgarian Split Squats'],
-		},
-		{
-			id: 3,
-			date: new Date('2024-03-07'),
-			durationMinutes: 60,
-			split: 'Legs',
-			exercises: ['Squats', 'Leg Extensions', 'Bulgarian Split Squats'],
-		},
-		{
-			id: 4,
-			date: new Date('2024-03-08'),
-			durationMinutes: 60,
-			split: 'Legs',
-			exercises: ['Squats', 'Leg Extensions', 'Bulgarian Split Squats'],
-		},
-	];
+	const [exerciseData, setExerciseData] = React.useState<Array<Exercise>>([]);
+
+	useEffect(() => {
+		setExerciseData(sampleExerciseData.workoutPlan);
+	}, []);
+
+	async function getExerciseData() {
+		const exerciseUserData = await getData('exerciseData');
+
+		console.log(exerciseUserData);
+
+		const headers = {
+			'Content-Type': 'application/json',
+		};
+
+		const workoutPlan = await axios.post(
+			`http://128.189.193.27:3000/create-workout-plan`,
+			JSON.stringify(exerciseUserData),
+			{ headers },
+		);
+
+		const parsedWorkoutPlan = JSON.parse(workoutPlan.data).workoutPlan;
+		setExerciseData(parsedWorkoutPlan);
+	}
 
 	return (
 		<ScrollView backgroundColor='white'>
@@ -259,6 +248,7 @@ function Exercise() {
 					shadowRadius={10}
 					isDisabled={false}
 					isFocusVisible={false}
+					onPress={getExerciseData}
 				>
 					<FontAwesome6
 						name='wand-magic-sparkles'
@@ -274,12 +264,64 @@ function Exercise() {
 
 				<VStack gap={12}>
 					{exerciseData.map((ex) => (
-						<ExerciseCard exercise={ex} key={ex.id} />
+						<ExerciseCard exercise={ex} key={ex.day} />
 					))}
 				</VStack>
 			</VStack>
 		</ScrollView>
 	);
+}
+
+function ExerciseCard({ exercise }: { exercise: Exercise }) {
+	const totalDuration = exercise.workouts.reduce((total, workout) => {
+		return total + workout.duration;
+	}, 0);
+
+	return (
+		<Card
+			size='md'
+			variant='filled'
+			m='$3'
+			flexDirection='row'
+			gap='$4'
+			margin='$0'
+			maxWidth='$full'
+			display='flex'
+		>
+			<Image
+				source={{
+					uri: 'https://i0.wp.com/www.sidekickinteractive.com/wp-content/uploads/2023/04/placeholder-3.png',
+				}}
+				alt={exercise.day}
+			/>
+			<VStack flexShrink={1} space='sm'>
+				<VStack>
+					<Heading size='lg' marginBottom='$0'>
+						{exercise.day}
+					</Heading>
+					<Text fontWeight='$medium'>{totalDuration} minutes</Text>
+				</VStack>
+
+				<Box flexDirection='row' flexShrink={1}>
+					<Text size='sm' maxWidth='auto'>
+						{exercise.workouts.map((w) => w.name).join(', ')}
+					</Text>
+				</Box>
+			</VStack>
+		</Card>
+	);
+}
+
+interface Exercise {
+	day: String;
+	workouts: Array<Workout>;
+}
+
+interface Workout {
+	name: string;
+	description: string;
+	duration: number;
+	intensity: string;
 }
 
 const renderScene = SceneMap({
@@ -320,60 +362,4 @@ function renderTabBar(props: any) {
 			)}
 		/>
 	);
-}
-
-function ExerciseCard({ exercise }: { exercise: Exercise }) {
-	const weekday = [
-		'Sunday',
-		'Monday',
-		'Tuesday',
-		'Wednesday',
-		'Thursday',
-		'Friday',
-		'Saturday',
-	];
-
-	return (
-		<Card
-			size='md'
-			variant='filled'
-			m='$3'
-			flexDirection='row'
-			gap='$4'
-			margin='$0'
-			maxWidth='$full'
-			display='flex'
-			key={exercise.date.toISOString()}
-		>
-			<Image
-				source={{
-					uri: 'https://i0.wp.com/www.sidekickinteractive.com/wp-content/uploads/2023/04/placeholder-3.png',
-				}}
-				alt={exercise.date.toISOString()}
-			/>
-			<VStack flexShrink={1} space='sm'>
-				<VStack>
-					<Heading size='lg' marginBottom='$0'>
-						{weekday[exercise.date.getDay()]}
-					</Heading>
-					<Text fontWeight='$medium'>
-						{exercise.durationMinutes} minutes
-					</Text>
-				</VStack>
-
-				<Box flexDirection='row' flexShrink={1}>
-					<Text size='sm' maxWidth='auto'>
-						{exercise.exercises.join(', ')}
-					</Text>
-				</Box>
-			</VStack>
-		</Card>
-	);
-}
-
-interface Exercise {
-	date: Date;
-	durationMinutes: number;
-	split: string;
-	exercises: Array<string>;
 }

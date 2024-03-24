@@ -2,7 +2,7 @@ import { Link } from 'expo-router';
 
 import * as React from 'react';
 import { useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { storeData, getData } from '@/functions/AsyncStorage';
 
 import {
 	Button,
@@ -40,6 +40,7 @@ import {
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import NumberInput from '@/components/NumberInput';
+import TextInput from '@/components/TextInput';
 
 import {
 	PersonDetails,
@@ -294,29 +295,7 @@ function Goals({ navigation }) {
 					navigation.navigate('Nutrition');
 					person.goal = goal as Goal;
 
-					const storeData = async (key: string, value: object) => {
-						try {
-							const jsonValue = JSON.stringify(value);
-							await AsyncStorage.setItem(key, jsonValue);
-						} catch (e) {
-							// saving error
-							console.error(e);
-						}
-					};
-
 					storeData('person', person);
-
-					const getData = async (key: string) => {
-						try {
-							const jsonValue = await AsyncStorage.getItem(key);
-							return jsonValue != null
-								? JSON.parse(jsonValue)
-								: null;
-						} catch (e) {
-							// error reading value
-							console.error(e);
-						}
-					};
 
 					getData('person').then((value) => {
 						console.log(value);
@@ -377,12 +356,137 @@ function Nutrition({ navigation }) {
 				</VStack>
 			</VStack>
 
-			<Link href='/(tabs)' asChild>
-				<Button mb={50}>
-					<ButtonText>Home</ButtonText>
-				</Button>
-			</Link>
+			<Button onPress={() => navigation.navigate('Exercise')} mb={50}>
+				<ButtonText>Next</ButtonText>
+			</Button>
 		</VStack>
+	);
+}
+
+function Exercise({ navigation }) {
+	const [fitnessLevel, setFitnessLevel] = useState('');
+	const [goals, setGoals] = useState('');
+	const [preferences, setPreferences] = useState('');
+	const [equipmentAvailability, setEquipmentAvailability] = useState('');
+	const [availableTime, setAvailableTime] = useState('');
+	const [healthConditions, setHealthConditions] = useState('');
+
+	const handleGoalsChange = (text: string) => {
+		setGoals(text);
+	};
+	const handlePreferencesChange = (text: string) => {
+		setPreferences(text);
+	};
+	const handleEquipmentAvailabilityChange = (text: string) => {
+		setEquipmentAvailability(text);
+	};
+	const handleAvailableTimeChange = (text: string) => {
+		setAvailableTime(text);
+	};
+	const handleHealthConditionsChange = (text: string) => {
+		setHealthConditions(text);
+	};
+
+	return (
+		<ScrollView>
+			<VStack
+				padding={20}
+				justifyContent='space-between'
+				height='$full'
+				backgroundColor='white'
+				borderTopColor='black'
+				borderTopWidth={0.5}
+				space='lg'
+			>
+				<VStack space='lg'>
+					<VStack space='sm'>
+						<Text fontSize='$lg'>What is your fitness level?</Text>
+						<Select
+							selectedValue={fitnessLevel}
+							onValueChange={setFitnessLevel}
+						>
+							<SelectTrigger variant='outline' size='md'>
+								<SelectInput placeholder='Select option' />
+								<SelectIcon mr='$3'>
+									<Icon as={ChevronDownIcon} />
+								</SelectIcon>
+							</SelectTrigger>
+							<SelectPortal>
+								<SelectBackdrop />
+								<SelectContent>
+									<SelectDragIndicatorWrapper>
+										<SelectDragIndicator />
+									</SelectDragIndicatorWrapper>
+									<SelectItem
+										label='Begineer'
+										value='begineer'
+									/>
+									<SelectItem
+										label='Intermediate'
+										value='intermediate'
+									/>
+									<SelectItem label='Expert' value='expert' />
+								</SelectContent>
+							</SelectPortal>
+						</Select>
+					</VStack>
+
+					<TextInput
+						title='What are your goals?'
+						example='e.g. run a half marathon in under 2 hours and lose 10 lbs'
+						onChangeText={handleGoalsChange}
+					/>
+
+					<TextInput
+						title='What are your preferred form of exercises?'
+						example='e.g. outdoor running but is open to strength and conditioning exercises'
+						onChangeText={handlePreferencesChange}
+					/>
+
+					<TextInput
+						title='What kind of fitness equipment do you have access to?'
+						example='e.g. basic home gym with dumbbells, resistance bands, and a yoga mat'
+						onChangeText={handleEquipmentAvailabilityChange}
+					/>
+
+					<TextInput
+						title='How much available time do you have?'
+						example='e.g. 45 minutes on weekdays, up to 90 minutes on weekends'
+						onChangeText={handleAvailableTimeChange}
+					/>
+
+					<TextInput
+						title='What health conditions do you have?'
+						example='e.g. none, asthma, arthritis, etc.'
+						onChangeText={handleHealthConditionsChange}
+					/>
+				</VStack>
+
+				<Link href='/(tabs)' asChild>
+					<Button
+						mb={50}
+						onPress={() => {
+							const exerciseData = {
+								fitnessLevel,
+								goals,
+								preferences,
+								equipmentAvailability,
+								availableTime,
+								healthConditions,
+							};
+
+							storeData('exerciseData', exerciseData);
+
+							getData('exerciseData').then((value) => {
+								console.log(value);
+							});
+						}}
+					>
+						<ButtonText>Complete setup</ButtonText>
+					</Button>
+				</Link>
+			</VStack>
+		</ScrollView>
 	);
 }
 
@@ -395,6 +499,7 @@ function OnboardingStack() {
 			<Stack.Screen name='You' component={You} />
 			<Stack.Screen name='Goals' component={Goals} />
 			<Stack.Screen name='Nutrition' component={Nutrition} />
+			<Stack.Screen name='Exercise' component={Exercise} />
 		</Stack.Navigator>
 	);
 }
