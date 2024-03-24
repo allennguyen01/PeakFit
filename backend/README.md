@@ -40,38 +40,7 @@ This document provides information on how to use the Personalized Workout and Di
 }
 ```
 
-**Response**
-
-```json
-{
-  "userDetails": {
-    "fitnessLevel": "string",
-    "goals": "string",
-    "preferences": "string",
-    "equipmentAvailability": "string",
-    "availableTime": "string",
-    "healthConditions": "string"
-  },
-  "workoutPlan": [
-    {
-      "week": "integer",
-      "days": [
-        {
-          "day": "string",
-          "workouts": [
-            {
-              "name": "string",
-              "description": "string",
-              "duration": "string",
-              "intensity": "string"
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
-```
+**Response** - Checkout this [Sample Workout Respone](../sampleWorkoutResponse.json) file
 
 ## Diet Plan API
 
@@ -92,38 +61,7 @@ carbs: Target carbohydrate intake in grams per day.
 fat: Target fat intake in grams per day.
 ```
 
-**Response**
-
-```json
-{
-  "dailyIntake": {
-    "totalCalories": "number",
-    "macros": {
-      "protein": "string",
-      "carbs": "string",
-      "fat": "string"
-    }
-  },
-  "meals": [
-    {
-      "mealNumber": "number",
-      "instructions": "string",
-      "ingredients": [
-        {
-          "food": "string",
-          "quantity": "string",
-          "calories": "number",
-          "macros": {
-            "protein": "string",
-            "carbs": "string",
-            "fat": "string"
-          }
-        }
-      ]
-    }
-  ]
-}
-```
+**Response** - **Response** - Checkout this [Sample Diet Respone](../sampleDietResponse.json) file
 
 ## Usage
 

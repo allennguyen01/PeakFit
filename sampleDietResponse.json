@@ -1,183 +1,174 @@
 {
   "dietPlan": {
     "dailyIntake": {
-      "totalCalories": 3500,
-      "macros": { "protein": "150 g", "carbs": "500 g", "fat": "100 g" }
+      "totalCalories": 2140,
+      "macros": { "protein": "150g", "carbs": "250g", "fat": "60g" }
     },
     "meals": [
       {
         "mealNumber": 1,
-        "instructions": "Blend together the rolled oats, banana, and Greek yogurt with some ice and a splash of milk to create a nutritious breakfast smoothie. This smoothie combines complex carbs from the oats, protein from the yogurt, and natural sugars and vitamins from the banana for a balanced start to the day.",
+        "mealType": "Breakfast",
+        "totalCalories": 550,
+        "instructions": "1. Toast the whole grain bread. 2. Cook the turkey bacon in a skillet over medium heat until crispy, then set aside on a paper towel. 3. Cook the egg whites in the same skillet, stirring frequently, until fully cooked. 4. Assemble the sandwich by layering the turkey bacon, cooked egg whites, and avocado slices on the toasted bread. 5. Serve with mixed berries on the side.",
         "ingredients": [
           {
-            "food": "Rolled Oats",
-            "quantity": "1 cup",
-            "calories": 307,
-            "macros": { "protein": "11 g", "carbs": "54 g", "fat": "5 g" }
+            "food": "Whole grain bread",
+            "quantity": "2 slices",
+            "calories": 140,
+            "macros": { "protein": "6g", "carbs": "24g", "fat": "2g" }
           },
           {
-            "food": "Banana",
-            "quantity": "1 medium",
-            "calories": 105,
-            "macros": { "protein": "1.3 g", "carbs": "27 g", "fat": "0.3 g" }
+            "food": "Turkey bacon",
+            "quantity": "4 slices",
+            "calories": 120,
+            "macros": { "protein": "12g", "carbs": "0g", "fat": "9g" }
           },
           {
-            "food": "Greek Yogurt",
+            "food": "Egg whites",
+            "quantity": "150g",
+            "calories": 80,
+            "macros": { "protein": "18g", "carbs": "2g", "fat": "0g" }
+          },
+          {
+            "food": "Avocado",
+            "quantity": "1/4",
+            "calories": 80,
+            "macros": { "protein": "1g", "carbs": "4g", "fat": "7g" }
+          },
+          {
+            "food": "Mixed berries",
             "quantity": "1 cup",
-            "calories": 220,
-            "macros": { "protein": "20 g", "carbs": "9 g", "fat": "11 g" }
+            "calories": 130,
+            "macros": { "protein": "2g", "carbs": "31g", "fat": "1g" }
           }
         ]
       },
       {
         "mealNumber": 2,
-        "instructions": "For a high-protein lunch, prepare a chicken breast seasoned with spices of your choice. Serve with a side of quinoa and steamed broccoli for a fulfilling meal rich in protein, fibrous carbs, and essential nutrients.",
+        "mealType": "Lunch",
+        "totalCalories": 690,
+        "instructions": "1. Preheat the grill to medium-high heat. 2. Season chicken breasts with olive oil, salt, and pepper, then grill for about 6 minutes per side, or until fully cooked through. 3. Slice the chicken and serve over the mixed salad greens, topped with cherry tomatoes, diced cucumber, quinoa, and feta cheese. Drizzle with balsamic vinaigrette and serve.",
         "ingredients": [
           {
-            "food": "Chicken Breast",
+            "food": "Chicken breast",
             "quantity": "200g",
             "calories": 330,
-            "macros": { "protein": "62 g", "carbs": "0 g", "fat": "7 g" }
+            "macros": { "protein": "62g", "carbs": "0g", "fat": "7g" }
+          },
+          {
+            "food": "Olive oil",
+            "quantity": "1 tbsp",
+            "calories": 120,
+            "macros": { "protein": "0g", "carbs": "0g", "fat": "14g" }
+          },
+          {
+            "food": "Mixed salad greens",
+            "quantity": "2 cups",
+            "calories": 20,
+            "macros": { "protein": "2g", "carbs": "4g", "fat": "0g" }
+          },
+          {
+            "food": "Cherry tomatoes",
+            "quantity": "1/2 cup",
+            "calories": 15,
+            "macros": { "protein": "1g", "carbs": "3g", "fat": "0g" }
+          },
+          {
+            "food": "Cucumber",
+            "quantity": "1/2",
+            "calories": 8,
+            "macros": { "protein": "0g", "carbs": "2g", "fat": "0g" }
           },
           {
             "food": "Quinoa",
-            "quantity": "1 cup cooked",
-            "calories": 222,
-            "macros": { "protein": "8 g", "carbs": "39 g", "fat": "4 g" }
+            "quantity": "1/2 cup (cooked)",
+            "calories": 111,
+            "macros": { "protein": "4g", "carbs": "19.5g", "fat": "1.8g" }
           },
           {
-            "food": "Steamed Broccoli",
-            "quantity": "1 cup",
-            "calories": 55,
-            "macros": { "protein": "3.7 g", "carbs": "11 g", "fat": "0.6 g" }
+            "food": "Feta cheese",
+            "quantity": "30g",
+            "calories": "86",
+            "macros": { "protein": "6g", "carbs": "1g", "fat": "6.8g" }
           }
         ]
       },
       {
         "mealNumber": 3,
-        "instructions": "Prepare a mixed bean salad with kidney beans, black beans, chickpeas, and a variety of fresh vegetables such as tomatoes, cucumbers, and bell peppers. Dress with olive oil and lemon juice for a refreshing and nutrient-dense dinner.",
+        "mealType": "Dinner",
+        "totalCalories": 450,
+        "instructions": "1. Preheat the oven to 375°F (190°C). 2. Place the tilapia fillets on a baking tray lined with parchment paper, and coat with a mix of lemon juice and garlic. Season with salt and pepper. 3. Bake for 12-15 minutes or until the fish flakes easily with a fork. 4. Serve with a side of sweet potato fries and steamed broccoli.",
         "ingredients": [
           {
-            "food": "Kidney Beans",
-            "quantity": "1 cup",
-            "calories": 225,
-            "macros": { "protein": "15 g", "carbs": "40 g", "fat": "1 g" }
+            "food": "Tilapia fillets",
+            "quantity": "200g",
+            "calories": 200,
+            "macros": { "protein": "42g", "carbs": "0g", "fat": "2g" }
           },
           {
-            "food": "Black Beans",
-            "quantity": "1 cup",
-            "calories": 227,
-            "macros": { "protein": "15 g", "carbs": "41 g", "fat": "1 g" }
+            "food": "Lemon juice",
+            "quantity": "1 tbsp",
+            "calories": 4,
+            "macros": { "protein": "0g", "carbs": "1g", "fat": "0g" }
           },
           {
-            "food": "Chickpeas",
-            "quantity": "1 cup",
-            "calories": 269,
-            "macros": { "protein": "15 g", "carbs": "45 g", "fat": "4 g" }
+            "food": "Garlic",
+            "quantity": "1 clove",
+            "calories": 4,
+            "macros": { "protein": "0g", "carbs": "1g", "fat": "0g" }
           },
           {
-            "food": "Mixed Vegetables",
-            "quantity": "2 cups",
-            "calories": 100,
-            "macros": { "protein": "2 g", "carbs": "20 g", "fat": "1 g" }
+            "food": "Sweet potato fries",
+            "quantity": "100g",
+            "calories": "115",
+            "macros": { "protein": "1g", "carbs": "26g", "fat": "0.5g" }
+          },
+          {
+            "food": "Steamed broccoli",
+            "quantity": "1 cup",
+            "calories": "55",
+            "macros": { "protein": "3.7g", "carbs": "11g", "fat": "0.6g" }
           }
         ]
       },
       {
         "mealNumber": 4,
-        "instructions": "For a mid-day snack, enjoy a serving of mixed nuts and seeds with a piece of fruit for a quick energy boost and a dose of healthy fats.",
+        "mealType": "Snack",
+        "totalCalories": 450,
+        "instructions": "1. Mix Greek yogurt with whey protein until well combined. 2. Top with almond butter and a sprinkle of chia seeds.",
         "ingredients": [
           {
-            "food": "Mixed Nuts",
-            "quantity": "50g",
-            "calories": 300,
-            "macros": { "protein": "7 g", "carbs": "9 g", "fat": "25 g" }
+            "food": "Greek yogurt",
+            "quantity": "200g",
+            "calories": 130,
+            "macros": { "protein": "23g", "carbs": "10g", "fat": "4g" }
           },
           {
-            "food": "Apple",
-            "quantity": "1 large",
-            "calories": 115,
-            "macros": { "protein": "0.5 g", "carbs": "30 g", "fat": "0.3 g" }
+            "food": "Whey protein powder",
+            "quantity": "30g",
+            "calories": 120,
+            "macros": { "protein": "24g", "carbs": "3g", "fat": "1g" }
+          },
+          {
+            "food": "Almond butter",
+            "quantity": "2 tbsp",
+            "calories": 180,
+            "macros": { "protein": "6g", "carbs": "6g", "fat": "16g" }
+          },
+          {
+            "food": "Chia seeds",
+            "quantity": "1 tsp",
+            "calories": 20,
+            "macros": { "protein": "1g", "carbs": "2g", "fat": "1.5g" }
           }
         ]
       },
       {
         "mealNumber": 5,
-        "instructions": "End your day with a protein-packed smoothie made from whey protein, almond milk, peanut butter, and cocoa powder. This delicious treat will satisfy your sweet tooth while still fitting perfectly into your nutrition goals.",
-        "ingredients": [
-          {
-            "food": "Whey Protein",
-            "quantity": "2 scoops",
-            "calories": 240,
-            "macros": { "protein": "48 g", "carbs": "8 g", "fat": "2 g" }
-          },
-          {
-            "food": "Almond Milk",
-            "quantity": "1 cup",
-            "calories": 60,
-            "macros": { "protein": "1 g", "carbs": "8 g", "fat": "2.5 g" }
-          },
-          {
-            "food": "Peanut Butter",
-            "quantity": "2 tablespoons",
-            "calories": 188,
-            "macros": { "protein": "8 g", "carbs": "6 g", "fat": "16 g" }
-          },
-          {
-            "food": "Cocoa Powder",
-            "quantity": "1 tablespoon",
-            "calories": 12,
-            "macros": { "protein": "1 g", "carbs": "3 g", "fat": "0.7 g" }
-          }
-        ]
-      },
-      {
-        "mealNumber": 6,
-        "instructions": " for an evening snack, opt for a simple yet nutritious option of cottage cheese topped with fresh berries. This light snack provides a mix of slow-digesting protein and antioxidants to ensure a well-rested night.",
-        "ingredients": [
-          {
-            "food": "Cottage Cheese",
-            "quantity": "1 cup",
-            "calories": 220,
-            "macros": { "protein": "28 g", "carbs": "6 g", "fat": "10 g" }
-          },
-          {
-            "food": "Fresh Berries",
-            "quantity": "0.5 cup",
-            "calories": 42,
-            "macros": { "protein": "0.5 g", "carbs": "10 g", "fat": "0.3 g" }
-          }
-        ]
-      },
-      {
-        "mealNumber": 7,
-        "instructions": "For a deep energy snack before a workout, prepare a homemade energy bar made with dates, oats, almonds, and a scoop of whey protein powder. This will give you both quick energy from the carbs and sustained energy from the proteins and fats.",
-        "ingredients": [
-          {
-            "food": "Dates",
-            "quantity": "100g",
-            "calories": 277,
-            "macros": { "protein": "1.8 g", "carbs": "75 g", "fat": "0.2 g" }
-          },
-          {
-            "food": "Oats",
-            "quantity": "50g",
-            "calories": 194,
-            "macros": { "protein": "5 g", "carbs": "33 g", "fat": "3.5 g" }
-          },
-          {
-            "food": "Almonds",
-            "quantity": "25g",
-            "calories": 144,
-            "macros": { "protein": "5.2 g", "carbs": "4.8 g", "fat": "12.5 g" }
-          },
-          {
-            "food": "Whey Protein Powder",
-            "quantity": "1 scoop",
-            "calories": 120,
-            "macros": { "protein": "24 g", "carbs": "4 g", "fat": "1 g" }
-          }
-        ]
+        "mealType": "Snack",
+        "totalCalories": 0,
+        "instructions": "Custom meal to meet remaining macros if needed.",
+        "ingredients": []
       }
     ]
   }

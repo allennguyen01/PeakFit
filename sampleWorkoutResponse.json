@@ -1,110 +1,93 @@
 {
   "userDetails": {
     "fitnessLevel": "Intermediate",
-    "goals": "Complete a half marathon in under two hours",
-    "preferences": "Prefers outdoor running but is open to strength and conditioning exercises",
-    "equipmentAvailability": "Basic home gym with dumbbells, resistance bands, and a treadmill",
-    "availableTime": "45 minutes on weekdays, up to 90 minutes on weekends",
+    "goals": "Lose weight",
+    "preferences": "Prefers yoga and light jogging",
+    "equipmentAvailability": "Have access to a gym and plays soccer",
+    "availableTime": "60 minutes per day",
     "healthConditions": "None"
   },
   "workoutPlan": [
     {
-      "week": 1,
-      "days": [
+      "day": "Monday",
+      "workouts": [
         {
-          "day": "Monday",
-          "workouts": [
-            {
-              "name": "Interval Running",
-              "description": "Warm-up for 10 minutes at a moderate pace. Perform 5 sets of 400m sprints with 1-2 minutes of walking or jogging for recovery in between sets. Cool down for 5 minutes.",
-              "duration": "45 minutes",
-              "intensity": "High"
-            },
-            {
-              "name": "Core Strengthening",
-              "description": "Include exercises like planks, Russian twists, and mountain climbers. Use a timer to do each exercise for 45 seconds with 15 seconds of rest in between. Repeat the circuit twice.",
-              "duration": "15 minutes",
-              "intensity": "Medium"
-            }
-          ]
+          "name": "Yoga Flow",
+          "description": "A series of dynamic yoga postures linked together with your breath. Focus on sun salutations and standing poses to increase flexibility and strength.",
+          "duration": 30,
+          "intensity": "Moderate"
         },
         {
-          "day": "Tuesday",
-          "workouts": [
-            {
-              "name": "Rest or Active Recovery",
-              "description": "Take a rest day or opt for a low-intensity activity like walking or yoga.",
-              "duration": "-",
-              "intensity": "Low"
-            }
-          ]
-        },
+          "name": "Treadmill Jogging",
+          "description": "A steady jog on the treadmill. Maintain a pace that allows you to converse comfortably to ensure you're in the right heart rate zone for fat burning.",
+          "duration": 30,
+          "intensity": "Moderate"
+        }
+      ]
+    },
+    {
+      "day": "Tuesday",
+      "workouts": [
         {
-          "day": "Wednesday",
-          "workouts": [
-            {
-              "name": "Hill Repeats",
-              "description": "After a 10-minute warm-up, find a hill that takes roughly 1 minute to run up at a hard effort. Jog back down for recovery. Repeat 6-8 times. Cool down for 5 minutes.",
-              "duration": "45 minutes",
-              "intensity": "High"
-            },
-            {
-              "name": "Lower Body Strength",
-              "description": "Use dumbbells and resistance bands for squats, lunges, deadlifts, and calf raises. Perform 3 sets of 12-15 reps for each exercise.",
-              "duration": "20 minutes",
-              "intensity": "Medium"
-            }
-          ]
-        },
+          "name": "Soccer Practice",
+          "description": "Join a team practice or work on soccer drills that focus on agility, speed, and coordination. This can include dribbling, shooting, and small-sided games.",
+          "duration": 60,
+          "intensity": "High"
+        }
+      ]
+    },
+    {
+      "day": "Wednesday",
+      "workouts": [
         {
-          "day": "Thursday",
-          "workouts": [
-            {
-              "name": "Rest or Active Recovery",
-              "description": "Take a rest day or opt for a low-intensity activity like walking or yoga.",
-              "duration": "-",
-              "intensity": "Low"
-            }
-          ]
-        },
+          "name": "Power Yoga",
+          "description": "An energetic form of yoga where you fluidly move from one pose to the next while connecting your breathing to your movements. Includes more challenging poses to improve strength and flexibility.",
+          "duration": 60,
+          "intensity": "High"
+        }
+      ]
+    },
+    {
+      "day": "Thursday",
+      "workouts": [
         {
-          "day": "Friday",
-          "workouts": [
-            {
-              "name": "Tempo Run",
-              "description": "Warm up for 10 minutes at an easy pace. Run for 20 minutes at a pace just outside your comfort zone, aiming for a pace you could hold for about an hour in a race. Cool down for 15 minutes.",
-              "duration": "45 minutes",
-              "intensity": "High"
-            }
-          ]
-        },
+          "name": "Strength Training - Upper Body",
+          "description": "Use gym equipment for a circuit of exercises targeting the chest, back, shoulders, and arms. Include exercises like bench press, lat pulldowns, shoulder press, and bicep curls. Aim for 3 sets of 10-12 reps each.",
+          "duration": 60,
+          "intensity": "High"
+        }
+      ]
+    },
+    {
+      "day": "Friday",
+      "workouts": [
         {
-          "day": "Saturday",
-          "workouts": [
-            {
-              "name": "Long Run",
-              "description": "Run at an easy to moderate pace aiming to increase your endurance. Start with 60 minutes and aim to increase by 5-10 minutes each week.",
-              "duration": "up to 90 minutes",
-              "intensity": "Medium"
-            },
-            {
-              "name": "Full Body Strength",
-              "description": "Use your home gym equipment for a full-body workout including push-ups, pull-ups, dumbbell rows, overhead press, and leg presses. Aim for 3 sets of 8-12 reps for each exercise.",
-              "duration": "30 minutes",
-              "intensity": "Medium"
-            }
-          ]
-        },
+          "name": "Steady State Jogging",
+          "description": "A longer, steady jog either outdoors or on a treadmill. Focus on maintaining a consistent pace that still allows for comfortable conversation. This helps in improving cardiovascular endurance.",
+          "duration": 60,
+          "intensity": "Moderate"
+        }
+      ]
+    },
+    {
+      "day": "Saturday",
+      "workouts": [
         {
-          "day": "Sunday",
-          "workouts": [
-            {
-              "name": "Rest or Light Activity",
-              "description": "Opt for light activities such as walking, stretching, or yoga to promote recovery.",
-              "duration": "-",
-              "intensity": "Low"
-            }
-          ]
+          "name": "Restorative Yoga",
+          "description": "A gentler form of yoga that aims to bring physical and mental relaxation through poses that are held for a longer duration. Use props like yoga blocks and straps to assist in holding poses without strain.",
+          "duration": 60,
+          "intensity": "Low"
+        }
+      ]
+    },
+    {
+      "day": "Sunday",
+      "workouts": [
+        {
+          "name": "Soccer Match",
+          "description": "Participate in a full soccer match or simulate game conditions with friends or teammates. This is not only a great cardiovascular workout but also helps in practicing your soccer skills under simulated match conditions.",
+          "duration": 60,
+          "intensity": "High"
         }
       ]
     }
