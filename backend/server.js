@@ -28,7 +28,7 @@ app.post("/create-diet-plan", async (req, res) => {
 });
 
 async function generateDietPlan(calories, protein, carbs, fat) {
-  const prompt = `Create an optimum diet plan for an individual adhering to with the following exact nutrition requirements: Calories: ${calories}, Protein: ${protein} g, Carbs: ${carbs} g, Fat: ${fat} g.`;
+  const prompt = `Create an optimum diet plan for an individual adhering to with the following exact nutrition requirements: Calories: ${calories}, Protein: ${protein} g, Carbs: ${carbs} g, Fat: ${fat} g. Make sure that the total calories and macronutrient breakdown are met, i.e., the total sum of calories from all meals should roughly equal the calores, protein, carbs, and fat breakdown that I told you to make. Take your time and make sure you get it right, it is of extreme importance. Include meals with ingredients, instructions, and macronutrient breakdown.`;
   const tools = [
     {
       type: "function",
@@ -66,12 +66,20 @@ async function generateDietPlan(calories, protein, carbs, fat) {
                 },
                 meals: {
                   type: "array",
-                  minItems: 2,
-                  maxItems: 10,
+                  minItems: 3,
+                  maxItems: 7,
                   items: {
                     type: "object",
                     properties: {
                       mealNumber: { type: "number" },
+                      mealType: {
+                        type: "string",
+                        description: "Breakfast, Lunch, Dinner, Snack, etc.",
+                      },
+                      totalCalories: {
+                        type: "number",
+                        description: "Sum of all ingredients in the meal.",
+                      },
                       instructions: {
                         type: "string",
                         description: "Description of how to prepare the food.",
@@ -97,7 +105,13 @@ async function generateDietPlan(calories, protein, carbs, fat) {
                         },
                       },
                     },
-                    required: ["mealNumber", "instructions", "ingredients"],
+                    required: [
+                      "mealNumber",
+                      "mealType",
+                      "totalCalories",
+                      "instructions",
+                      "ingredients",
+                    ],
                   },
                 },
               },
@@ -205,41 +219,41 @@ async function generateWorkoutPlan(
             },
             workoutPlan: {
               type: "array",
+              minItems: 5,
+              maxItems: 7,
               items: {
                 type: "object",
                 properties: {
-                  week: { type: "integer" },
-                  days: {
+                  day: { type: "string" },
+                  workouts: {
                     type: "array",
                     items: {
                       type: "object",
                       properties: {
-                        day: { type: "string" },
-                        workouts: {
-                          type: "array",
-                          items: {
-                            type: "object",
-                            properties: {
-                              name: { type: "string" },
-                              description: { type: "string" },
-                              duration: { type: "string" },
-                              intensity: { type: "string" },
-                            },
-                            required: [
-                              "name",
-                              "description",
-                              "duration",
-                              "intensity",
-                            ],
-                          },
+                        name: { type: "string" },
+                        description: {
+                          type: "string",
+                          description:
+                            "detailed description of the workout, telling the user how to perform it.",
                         },
+                        duration: {
+                          type: "integer",
+                          description: "duration of the workout in minutes",
+                        },
+                        intensity: { type: "string" },
                       },
-                      required: ["day", "workouts"],
+                      required: [
+                        "name",
+                        "description",
+                        "duration",
+                        "intensity",
+                      ],
                     },
                   },
                 },
-                required: ["week", "days"],
+                required: ["day", "workouts"],
               },
+              required: ["workoutPlan"],
             },
           },
           required: ["userDetails", "workoutPlan"],

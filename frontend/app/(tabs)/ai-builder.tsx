@@ -22,6 +22,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { calculateMacros } from '@/functions/calculateMacros';
 import sampleNutritionData from '@/sample_data/sampleDietResponse';
 import sampleExerciseData from '@/sample_data/sampleExerciseResponse';
+import { getData } from '@/functions/AsyncStorage';
 
 function Nutrition() {
 	const [nutritionData, setNutritionData] = React.useState<Array<Nutrition>>(
@@ -206,8 +207,27 @@ function Exercise() {
 	const [exerciseData, setExerciseData] = React.useState<Array<Exercise>>([]);
 
 	useEffect(() => {
-		setExerciseData(sampleExerciseData.workoutPlan[0].days);
+		setExerciseData(sampleExerciseData.workoutPlan);
 	}, []);
+
+	async function getExerciseData() {
+		const exerciseUserData = await getData('exerciseData');
+
+		console.log(exerciseUserData);
+
+		const headers = {
+			'Content-Type': 'application/json',
+		};
+
+		const workoutPlan = await axios.post(
+			`http://128.189.193.27:3000/create-workout-plan`,
+			JSON.stringify(exerciseUserData),
+			{ headers },
+		);
+
+		const parsedWorkoutPlan = JSON.parse(workoutPlan.data).workoutPlan;
+		setExerciseData(parsedWorkoutPlan);
+	}
 
 	return (
 		<ScrollView backgroundColor='white'>
@@ -228,6 +248,7 @@ function Exercise() {
 					shadowRadius={10}
 					isDisabled={false}
 					isFocusVisible={false}
+					onPress={getExerciseData}
 				>
 					<FontAwesome6
 						name='wand-magic-sparkles'
@@ -252,6 +273,10 @@ function Exercise() {
 }
 
 function ExerciseCard({ exercise }: { exercise: Exercise }) {
+	const totalDuration = exercise.workouts.reduce((total, workout) => {
+		return total + workout.duration;
+	}, 0);
+
 	return (
 		<Card
 			size='md'
@@ -274,9 +299,7 @@ function ExerciseCard({ exercise }: { exercise: Exercise }) {
 					<Heading size='lg' marginBottom='$0'>
 						{exercise.day}
 					</Heading>
-					{/* <Text fontWeight='$medium'>
-						{exercise.durationMinutes} minutes
-					</Text> */}
+					<Text fontWeight='$medium'>{totalDuration} minutes</Text>
 				</VStack>
 
 				<Box flexDirection='row' flexShrink={1}>
@@ -297,7 +320,7 @@ interface Exercise {
 interface Workout {
 	name: string;
 	description: string;
-	duration: string;
+	duration: number;
 	intensity: string;
 }
 
