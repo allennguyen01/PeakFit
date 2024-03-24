@@ -67,7 +67,7 @@ async function generateDietPlan(calories, protein, carbs, fat) {
                 meals: {
                   type: "array",
                   minItems: 3,
-                  maxItems: 10,
+                  maxItems: 7,
                   items: {
                     type: "object",
                     properties: {
@@ -78,7 +78,7 @@ async function generateDietPlan(calories, protein, carbs, fat) {
                       },
                       totalCalories: {
                         type: "number",
-                        description: "Total calories in the meal.",
+                        description: "Sum of all ingredients in the meal.",
                       },
                       instructions: {
                         type: "string",
