@@ -22,6 +22,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { calculateMacros } from '@/functions/calculateMacros';
 import sampleNutritionData from '@/sample_data/sampleDietResponse';
 import sampleExerciseData from '@/sample_data/sampleExerciseResponse';
+import { getData } from '@/functions/AsyncStorage';
 
 function Nutrition() {
 	const [nutritionData, setNutritionData] = React.useState<Array<Nutrition>>(
@@ -209,6 +210,25 @@ function Exercise() {
 		setExerciseData(sampleExerciseData.workoutPlan);
 	}, []);
 
+	async function getExerciseData() {
+		const exerciseUserData = await getData('exerciseData');
+
+		console.log(exerciseUserData);
+
+		const headers = {
+			'Content-Type': 'application/json',
+		};
+
+		const workoutPlan = await axios.post(
+			`http://128.189.193.27:3000/create-workout-plan`,
+			JSON.stringify(exerciseUserData),
+			{ headers },
+		);
+
+		const parsedWorkoutPlan = JSON.parse(workoutPlan.data).workoutPlan;
+		setExerciseData(parsedWorkoutPlan);
+	}
+
 	return (
 		<ScrollView backgroundColor='white'>
 			<VStack gap={20} margin={20}>
@@ -228,6 +248,7 @@ function Exercise() {
 					shadowRadius={10}
 					isDisabled={false}
 					isFocusVisible={false}
+					onPress={getExerciseData}
 				>
 					<FontAwesome6
 						name='wand-magic-sparkles'

@@ -463,7 +463,25 @@ function Exercise({ navigation }) {
 				</VStack>
 
 				<Link href='/(tabs)' asChild>
-					<Button mb={50}>
+					<Button
+						mb={50}
+						onPress={() => {
+							const exerciseData = {
+								fitnessLevel,
+								goals,
+								preferences,
+								equipmentAvailability,
+								availableTime,
+								healthConditions,
+							};
+
+							storeData('exerciseData', exerciseData);
+
+							getData('exerciseData').then((value) => {
+								console.log(value);
+							});
+						}}
+					>
 						<ButtonText>Complete setup</ButtonText>
 					</Button>
 				</Link>
