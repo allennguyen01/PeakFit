@@ -445,7 +445,7 @@ function Exercise({ navigation }) {
 
 					<TextInput
 						title='What kind of fitness equipment do you have access to?'
-						example='e.g. outdoor running but is open to strength and conditioning exercises'
+						example='e.g. basic home gym with dumbbells, resistance bands, and a yoga mat'
 						onChangeText={handleEquipmentAvailabilityChange}
 					/>
 

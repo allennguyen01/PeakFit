@@ -31,7 +31,7 @@ export default function NumberInput({
 				isInvalid={false}
 				isDisabled={false}
 				w='$full'
-				h={80}
+				h={70}
 			>
 				<TextareaInput
 					onChangeText={onChangeText}
