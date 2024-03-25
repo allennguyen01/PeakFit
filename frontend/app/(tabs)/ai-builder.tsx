@@ -14,7 +14,7 @@ import {
 	Box,
 	Image,
 	ScrollView,
-	set,
+	Spinner,
 } from '@gluestack-ui/themed';
 import { FontAwesome6 } from '@expo/vector-icons';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
@@ -29,40 +29,30 @@ function Nutrition() {
 		[],
 	);
 
-	useEffect(() => {
-		// Set up dummy data
-		setNutritionData(sampleNutritionData.dietPlan.meals);
-	}, []);
-
-	const [userData, setUserData] = React.useState<null | {}>(null);
-
 	async function getNutritionData() {
 		try {
 			const data = await AsyncStorage.getItem('person');
 			const parsedData = data != null ? JSON.parse(data) : null;
-			setUserData(parsedData);
+
+			const userMacros = calculateMacros(parsedData);
+
+			console.log(userMacros);
+
+			const headers = {
+				'Content-Type': 'application/json',
+			};
+
+			const dietPlan = await axios.post(
+				`http://128.189.193.27:3000/create-diet-plan`,
+				JSON.stringify(userMacros),
+				{ headers },
+			);
+
+			console.log(dietPlan.data.dietPlan.meals);
+			setNutritionData(dietPlan.data.dietPlan.meals);
 		} catch (e) {
 			console.error(e);
 		}
-
-		console.log(userData);
-
-		const userMacros = calculateMacros({ ...userData });
-
-		console.log(userMacros);
-
-		const headers = {
-			'Content-Type': 'application/json',
-		};
-
-		const dietPlan = await axios.post(
-			`http://128.189.193.27:3000/create-diet-plan`,
-			JSON.stringify(userMacros),
-			{ headers },
-		);
-
-		console.log(dietPlan.data.dietPlan.meals);
-		setNutritionData(dietPlan.data.dietPlan.meals);
 	}
 
 	function getCurrentDateFormatted() {
@@ -133,17 +123,46 @@ function Nutrition() {
 					{currentDate}
 				</Heading>
 
-				<VStack gap={12}>
-					{nutritionData.map((n) => (
-						<NutritionCard nutrition={n} key={n.mealNumber} />
-					))}
-				</VStack>
+				{nutritionData.length === 0 ? (
+					<Spinner size='large' />
+				) : (
+					<VStack gap={12}>
+						{nutritionData.map((n) => (
+							<NutritionCard nutrition={n} key={n.mealNumber} />
+						))}
+					</VStack>
+				)}
 			</VStack>
 		</ScrollView>
 	);
 }
 
 function NutritionCard({ nutrition }: { nutrition: Nutrition }) {
+	const [imageURL, setImageURL] = React.useState<string>('');
+
+	useEffect(() => {
+		(async () => {
+			try {
+				// Fetch image from backend for meal 1 only
+				if (nutrition.mealNumber !== 1) {
+					return;
+				}
+				const imageResponse = await axios.get(
+					'http://128.189.193.27:3000/generate-diet-image',
+					{
+						params: {
+							instructions: nutrition.instructions,
+						},
+					},
+				);
+
+				setImageURL(imageResponse.data);
+			} catch (e) {
+				console.error('Could not fetch image', e);
+			}
+		})();
+	}, []);
+
 	const totalCalories = nutrition.ingredients.reduce((total, ingredient) => {
 		return total + ingredient.calories;
 	}, 0);
@@ -160,12 +179,16 @@ function NutritionCard({ nutrition }: { nutrition: Nutrition }) {
 			display='flex'
 			key={nutrition.mealNumber}
 		>
-			<Image
-				source={{
-					uri: 'https://i0.wp.com/www.sidekickinteractive.com/wp-content/uploads/2023/04/placeholder-3.png',
-				}}
-				alt={nutrition.mealNumber.toString()}
-			/>
+			{imageURL ? (
+				<Image
+					source={{
+						uri: imageURL,
+					}}
+					alt={'Image of meal #' + nutrition.mealNumber}
+				/>
+			) : (
+				<Spinner size='small' />
+			)}
 			<VStack flexShrink={1} space='sm'>
 				<VStack>
 					<Heading size='lg' marginBottom='$0'>

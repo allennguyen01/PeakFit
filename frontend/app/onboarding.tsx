@@ -44,7 +44,6 @@ import TextInput from '@/components/TextInput';
 
 import {
 	PersonDetails,
-	calculateMacros,
 	Sex,
 	ActivityLevel,
 	Goal,
@@ -52,11 +51,11 @@ import {
 
 const person: PersonDetails = {
 	age: 0,
-	sex: null,
+	sex: 'male',
 	weightKg: 0,
 	heightCm: 0,
-	activityLevel: null,
-	goal: null,
+	activityLevel: 'none',
+	goal: 'gainMuscle',
 };
 
 function SignUp({ navigation }) {
