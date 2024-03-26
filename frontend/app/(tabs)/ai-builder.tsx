@@ -23,7 +23,7 @@ import { calculateMacros } from '@/functions/calculateMacros';
 import sampleNutritionData from '@/sample_data/sampleDietResponse';
 import sampleExerciseData from '@/sample_data/sampleExerciseResponse';
 import { getData } from '@/functions/AsyncStorage';
-import getCurrentDateFormatted from '@/functions/getCurrentDateFormatted';
+import getMondayBasedWeek from '@/functions/getMondayBasedWeek';
 
 function Nutrition() {
 	const [nutritionData, setNutritionData] = React.useState<Array<Nutrition>>(
@@ -60,7 +60,7 @@ function Nutrition() {
 		}
 	}
 
-	const currentDate = getCurrentDateFormatted();
+	const mondayWeek = getMondayBasedWeek();
 
 	return (
 		<ScrollView backgroundColor='white'>
@@ -92,7 +92,7 @@ function Nutrition() {
 				</Button>
 
 				<Heading size='xl' fontWeight='600' textAlign='center'>
-					{currentDate}
+					Week of {mondayWeek.start} - {mondayWeek.end}
 				</Heading>
 
 				<VStack gap={12}>
@@ -241,6 +241,8 @@ function Exercise() {
 		setExerciseData(parsedWorkoutPlan);
 	}
 
+	const mondayWeek = getMondayBasedWeek();
+
 	return (
 		<ScrollView backgroundColor='white'>
 			<VStack gap={20} margin={20}>
@@ -271,7 +273,7 @@ function Exercise() {
 				</Button>
 
 				<Heading size='xl' fontWeight='600' textAlign='center'>
-					Week of Mar 3 - Mar 9
+					Week of {mondayWeek.start} - {mondayWeek.end}
 				</Heading>
 
 				<VStack gap={12}>
