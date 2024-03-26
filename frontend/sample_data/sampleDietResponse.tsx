@@ -1,212 +1,246 @@
 const sampleNutritionData = {
 	dietPlan: {
 		dailyIntake: {
-			totalCalories: 3500,
-			macros: { protein: '150 g', carbs: '500 g', fat: '100 g' },
+			totalCalories: 2000,
+			macros: {
+				protein: '150g',
+				carbs: '200g',
+				fat: '89g',
+			},
 		},
 		meals: [
 			{
 				mealNumber: 1,
+				mealType: 'Breakfast',
+				totalCalories: 500,
 				instructions:
-					'Blend together the rolled oats, banana, and Greek yogurt with some ice and a splash of milk to create a nutritious breakfast smoothie. This smoothie combines complex carbs from the oats, protein from the yogurt, and natural sugars and vitamins from the banana for a balanced start to the day.',
+					"Cook the oats in water or milk until they're soft. Then, mix in the chia seeds, protein powder, and honey. Top with sliced banana.",
 				ingredients: [
 					{
-						food: 'Rolled Oats',
-						quantity: '1 cup',
-						calories: 307,
-						macros: { protein: '11 g', carbs: '54 g', fat: '5 g' },
-					},
-					{
-						food: 'Banana',
-						quantity: '1 medium',
-						calories: 105,
+						food: 'Oats',
+						quantity: '80g',
+						calories: 303,
 						macros: {
-							protein: '1.3 g',
-							carbs: '27 g',
-							fat: '0.3 g',
+							protein: '10g',
+							carbs: '54g',
+							fat: '5g',
 						},
 					},
 					{
-						food: 'Greek Yogurt',
-						quantity: '1 cup',
-						calories: 220,
-						macros: { protein: '20 g', carbs: '9 g', fat: '11 g' },
+						food: 'Chia Seeds',
+						quantity: '15g',
+						calories: 74,
+						macros: {
+							protein: '3g',
+							carbs: '6g',
+							fat: '5g',
+						},
+					},
+					{
+						food: 'Whey Protein Powder',
+						quantity: '30g',
+						calories: 120,
+						macros: {
+							protein: '24g',
+							carbs: '3g',
+							fat: '1g',
+						},
+					},
+					{
+						food: 'Honey',
+						quantity: '1 tbsp',
+						calories: 64,
+						macros: {
+							carbs: '17g',
+						},
+					},
+					{
+						food: 'Banana',
+						quantity: '1 small',
+						calories: 90,
+						macros: {
+							protein: '1g',
+							carbs: '23g',
+							fat: '0.3g',
+						},
 					},
 				],
 			},
 			{
 				mealNumber: 2,
+				mealType: 'Lunch',
+				totalCalories: 600,
 				instructions:
-					'For a high-protein lunch, prepare a chicken breast seasoned with spices of your choice. Serve with a side of quinoa and steamed broccoli for a fulfilling meal rich in protein, fibrous carbs, and essential nutrients.',
+					'Season the chicken breast with olive oil, salt, pepper, and grill until fully cooked. Serve with steamed broccoli and quinoa.',
 				ingredients: [
 					{
 						food: 'Chicken Breast',
 						quantity: '200g',
 						calories: 330,
-						macros: { protein: '62 g', carbs: '0 g', fat: '7 g' },
+						macros: {
+							protein: '62g',
+							carbs: '0g',
+							fat: '7g',
+						},
+					},
+					{
+						food: 'Olive Oil',
+						quantity: '1 tbsp',
+						calories: 119,
+						macros: {
+							fat: '14g',
+						},
+					},
+					{
+						food: 'Broccoli',
+						quantity: '200g',
+						calories: 70,
+						macros: {
+							protein: '5g',
+							carbs: '14g',
+							fat: '0.8g',
+						},
 					},
 					{
 						food: 'Quinoa',
-						quantity: '1 cup cooked',
-						calories: 222,
-						macros: { protein: '8 g', carbs: '39 g', fat: '4 g' },
-					},
-					{
-						food: 'Steamed Broccoli',
-						quantity: '1 cup',
-						calories: 55,
+						quantity: '50g',
+						calories: 180,
 						macros: {
-							protein: '3.7 g',
-							carbs: '11 g',
-							fat: '0.6 g',
+							protein: '6g',
+							carbs: '32g',
+							fat: '2.5g',
 						},
 					},
 				],
 			},
 			{
 				mealNumber: 3,
+				mealType: 'Dinner',
+				totalCalories: 700,
 				instructions:
-					'Prepare a mixed bean salad with kidney beans, black beans, chickpeas, and a variety of fresh vegetables such as tomatoes, cucumbers, and bell peppers. Dress with olive oil and lemon juice for a refreshing and nutrient-dense dinner.',
+					'Season salmon with lemon juice, salt, pepper, and bake in the oven. In a pan, cook spinach with garlic until wilted. Serve salmon with spinach and cooked sweet potato.',
 				ingredients: [
 					{
-						food: 'Kidney Beans',
-						quantity: '1 cup',
-						calories: 225,
-						macros: { protein: '15 g', carbs: '40 g', fat: '1 g' },
+						food: 'Salmon',
+						quantity: '180g',
+						calories: 414,
+						macros: {
+							protein: '45g',
+							carbs: '0g',
+							fat: '24g',
+						},
 					},
 					{
-						food: 'Black Beans',
-						quantity: '1 cup',
-						calories: 227,
-						macros: { protein: '15 g', carbs: '41 g', fat: '1 g' },
+						food: 'Lemon Juice',
+						quantity: '2 tbsp',
+						calories: 8,
+						macros: {
+							carbs: '2g',
+						},
 					},
 					{
-						food: 'Chickpeas',
-						quantity: '1 cup',
-						calories: 269,
-						macros: { protein: '15 g', carbs: '45 g', fat: '4 g' },
+						food: 'Spinach',
+						quantity: '100g',
+						calories: 23,
+						macros: {
+							protein: '3g',
+							carbs: '4g',
+							fat: '0.4g',
+						},
 					},
 					{
-						food: 'Mixed Vegetables',
-						quantity: '2 cups',
-						calories: 100,
-						macros: { protein: '2 g', carbs: '20 g', fat: '1 g' },
+						food: 'Garlic',
+						quantity: '2 cloves',
+						calories: 9,
+						macros: {
+							carbs: '2g',
+						},
+					},
+					{
+						food: 'Sweet Potato',
+						quantity: '150g',
+						calories: 135,
+						macros: {
+							protein: '2g',
+							carbs: '31g',
+							fat: '0.3g',
+						},
 					},
 				],
 			},
 			{
 				mealNumber: 4,
-				instructions:
-					'For a mid-day snack, enjoy a serving of mixed nuts and seeds with a piece of fruit for a quick energy boost and a dose of healthy fats.',
+				mealType: 'Snack',
+				totalCalories: 200,
+				instructions: 'Blend all ingredients together until smooth.',
 				ingredients: [
 					{
-						food: 'Mixed Nuts',
-						quantity: '50g',
-						calories: 300,
-						macros: { protein: '7 g', carbs: '9 g', fat: '25 g' },
+						food: 'Greek Yogurt',
+						quantity: '100g',
+						calories: 59,
+						macros: {
+							protein: '10g',
+							carbs: '3.6g',
+							fat: '0.4g',
+						},
 					},
 					{
-						food: 'Apple',
-						quantity: '1 large',
-						calories: 115,
+						food: 'Mixed Berries',
+						quantity: '100g',
+						calories: 57,
 						macros: {
-							protein: '0.5 g',
-							carbs: '30 g',
-							fat: '0.3 g',
+							protein: '1g',
+							carbs: '14g',
+							fat: '0.3g',
+						},
+					},
+					{
+						food: 'Almond Milk',
+						quantity: '100ml',
+						calories: 17,
+						macros: {
+							protein: '0.4g',
+							carbs: '0.6g',
+							fat: '1.1g',
+						},
+					},
+					{
+						food: 'Almonds',
+						quantity: '10g',
+						calories: 57,
+						macros: {
+							protein: '2g',
+							carbs: '2g',
+							fat: '5g',
 						},
 					},
 				],
 			},
 			{
 				mealNumber: 5,
-				instructions:
-					'End your day with a protein-packed smoothie made from whey protein, almond milk, peanut butter, and cocoa powder. This delicious treat will satisfy your sweet tooth while still fitting perfectly into your nutrition goals.',
+				mealType: 'Snack',
+				totalCalories: 100,
+				instructions: 'Enjoy a hard boiled egg with a side of avocado.',
 				ingredients: [
 					{
-						food: 'Whey Protein',
-						quantity: '2 scoops',
-						calories: 240,
-						macros: { protein: '48 g', carbs: '8 g', fat: '2 g' },
-					},
-					{
-						food: 'Almond Milk',
-						quantity: '1 cup',
-						calories: 60,
-						macros: { protein: '1 g', carbs: '8 g', fat: '2.5 g' },
-					},
-					{
-						food: 'Peanut Butter',
-						quantity: '2 tablespoons',
-						calories: 188,
-						macros: { protein: '8 g', carbs: '6 g', fat: '16 g' },
-					},
-					{
-						food: 'Cocoa Powder',
-						quantity: '1 tablespoon',
-						calories: 12,
-						macros: { protein: '1 g', carbs: '3 g', fat: '0.7 g' },
-					},
-				],
-			},
-			{
-				mealNumber: 6,
-				instructions:
-					' for an evening snack, opt for a simple yet nutritious option of cottage cheese topped with fresh berries. This light snack provides a mix of slow-digesting protein and antioxidants to ensure a well-rested night.',
-				ingredients: [
-					{
-						food: 'Cottage Cheese',
-						quantity: '1 cup',
-						calories: 220,
-						macros: { protein: '28 g', carbs: '6 g', fat: '10 g' },
-					},
-					{
-						food: 'Fresh Berries',
-						quantity: '0.5 cup',
-						calories: 42,
+						food: 'Egg',
+						quantity: '1 large',
+						calories: 70,
 						macros: {
-							protein: '0.5 g',
-							carbs: '10 g',
-							fat: '0.3 g',
-						},
-					},
-				],
-			},
-			{
-				mealNumber: 7,
-				instructions:
-					'For a deep energy snack before a workout, prepare a homemade energy bar made with dates, oats, almonds, and a scoop of whey protein powder. This will give you both quick energy from the carbs and sustained energy from the proteins and fats.',
-				ingredients: [
-					{
-						food: 'Dates',
-						quantity: '100g',
-						calories: 277,
-						macros: {
-							protein: '1.8 g',
-							carbs: '75 g',
-							fat: '0.2 g',
+							protein: '6g',
+							carbs: '1g',
+							fat: '5g',
 						},
 					},
 					{
-						food: 'Oats',
-						quantity: '50g',
-						calories: 194,
-						macros: { protein: '5 g', carbs: '33 g', fat: '3.5 g' },
-					},
-					{
-						food: 'Almonds',
-						quantity: '25g',
-						calories: 144,
+						food: 'Avocado',
+						quantity: '30g',
+						calories: 48,
 						macros: {
-							protein: '5.2 g',
-							carbs: '4.8 g',
-							fat: '12.5 g',
+							protein: '1g',
+							carbs: '2g',
+							fat: '4g',
 						},
-					},
-					{
-						food: 'Whey Protein Powder',
-						quantity: '1 scoop',
-						calories: 120,
-						macros: { protein: '24 g', carbs: '4 g', fat: '1 g' },
 					},
 				],
 			},

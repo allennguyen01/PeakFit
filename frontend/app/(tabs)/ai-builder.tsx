@@ -23,11 +23,16 @@ import { calculateMacros } from '@/functions/calculateMacros';
 import sampleNutritionData from '@/sample_data/sampleDietResponse';
 import sampleExerciseData from '@/sample_data/sampleExerciseResponse';
 import { getData } from '@/functions/AsyncStorage';
+import getCurrentDateFormatted from '@/functions/getCurrentDateFormatted';
 
 function Nutrition() {
 	const [nutritionData, setNutritionData] = React.useState<Array<Nutrition>>(
 		[],
 	);
+
+	useEffect(() => {
+		setNutritionData(sampleNutritionData.dietPlan.meals);
+	}, []);
 
 	async function getNutritionData() {
 		try {
@@ -43,7 +48,7 @@ function Nutrition() {
 			};
 
 			const dietPlan = await axios.post(
-				`http://128.189.193.27:3000/create-diet-plan`,
+				`http://128.189.195.232:3000/create-diet-plan`,
 				JSON.stringify(userMacros),
 				{ headers },
 			);
@@ -53,39 +58,6 @@ function Nutrition() {
 		} catch (e) {
 			console.error(e);
 		}
-	}
-
-	function getCurrentDateFormatted() {
-		const days = [
-			'Sunday',
-			'Monday',
-			'Tuesday',
-			'Wednesday',
-			'Thursday',
-			'Friday',
-			'Saturday',
-		];
-		const months = [
-			'January',
-			'February',
-			'March',
-			'April',
-			'May',
-			'June',
-			'July',
-			'August',
-			'September',
-			'October',
-			'November',
-			'December',
-		];
-
-		const now = new Date();
-		const dayOfWeek = days[now.getDay()];
-		const month = months[now.getMonth()];
-		const dayOfMonth = now.getDate();
-
-		return `${dayOfWeek}, ${month} ${dayOfMonth}`;
 	}
 
 	const currentDate = getCurrentDateFormatted();
@@ -123,15 +95,11 @@ function Nutrition() {
 					{currentDate}
 				</Heading>
 
-				{nutritionData.length === 0 ? (
-					<Spinner size='large' />
-				) : (
-					<VStack gap={12}>
-						{nutritionData.map((n) => (
-							<NutritionCard nutrition={n} key={n.mealNumber} />
-						))}
-					</VStack>
-				)}
+				<VStack gap={12}>
+					{nutritionData.map((n) => (
+						<NutritionCard nutrition={n} key={n.mealNumber} />
+					))}
+				</VStack>
 			</VStack>
 		</ScrollView>
 	);
@@ -148,7 +116,7 @@ function NutritionCard({ nutrition }: { nutrition: Nutrition }) {
 					return;
 				}
 				const imageResponse = await axios.get(
-					'http://128.189.193.27:3000/generate-diet-image',
+					'http://128.189.195.232:3000/generate-diet-image',
 					{
 						params: {
 							instructions: nutrition.instructions,
@@ -163,9 +131,13 @@ function NutritionCard({ nutrition }: { nutrition: Nutrition }) {
 		})();
 	}, []);
 
-	const totalCalories = nutrition.ingredients.reduce((total, ingredient) => {
-		return total + ingredient.calories;
-	}, 0);
+	const mealImageURL: { [key: string]: string } = {
+		Breakfast:
+			'https://www.eatingwell.com/thmb/-UULlbERQCfJRQTnb5bwjoo9-UQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/old-fashioned-oatmeal-hero-05-060861b81cb641cea272e068aba093fd.jpg',
+		Lunch: 'https://www.acouplecooks.com/wp-content/uploads/2022/01/Hummus-Bowl-016.jpg',
+		Dinner: 'https://www.eatingwell.com/thmb/brHFTvx40kZq844uGiitI4hWQKo=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/grilled-salmon-and-vegetables-with-charred-lemon-vinaigrette-a4d5a04715bf427d86fdbadea6272679.jpg',
+		Snack: 'https://static01.nyt.com/images/2018/07/18/dining/18YOGURT1/18YOGURT1-square640.jpg',
+	};
 
 	return (
 		<Card
@@ -177,6 +149,8 @@ function NutritionCard({ nutrition }: { nutrition: Nutrition }) {
 			margin='$0'
 			maxWidth='$full'
 			display='flex'
+			alignItems='center'
+			justifyContent='flex-start'
 			key={nutrition.mealNumber}
 		>
 			{imageURL ? (
@@ -184,17 +158,30 @@ function NutritionCard({ nutrition }: { nutrition: Nutrition }) {
 					source={{
 						uri: imageURL,
 					}}
-					alt={'Image of meal #' + nutrition.mealNumber}
+					alt={nutrition.mealType}
+					width={80}
+					height={80}
+					borderRadius={10}
 				/>
 			) : (
-				<Spinner size='small' />
+				<Image
+					source={{
+						uri: mealImageURL[nutrition.mealType],
+					}}
+					alt={nutrition.mealType}
+					width={80}
+					height={80}
+					borderRadius={10}
+				/>
 			)}
 			<VStack flexShrink={1} space='sm'>
 				<VStack>
 					<Heading size='lg' marginBottom='$0'>
-						Meal #{[nutrition.mealNumber]}
+						{nutrition.mealType}
 					</Heading>
-					<Text fontWeight='$medium'>{totalCalories} calories</Text>
+					<Text fontWeight='$medium'>
+						{nutrition.totalCalories} calories
+					</Text>
 				</VStack>
 
 				<Box flexDirection='row' flexShrink={1}>
@@ -211,6 +198,8 @@ function NutritionCard({ nutrition }: { nutrition: Nutrition }) {
 
 interface Nutrition {
 	mealNumber: number;
+	mealType: string;
+	totalCalories: number;
 	instructions: string;
 	ingredients: Array<Ingredient>;
 }
@@ -243,7 +232,7 @@ function Exercise() {
 		};
 
 		const workoutPlan = await axios.post(
-			`http://128.189.193.27:3000/create-workout-plan`,
+			`http://128.189.195.232:3000/create-workout-plan`,
 			JSON.stringify(exerciseUserData),
 			{ headers },
 		);
