@@ -1,16 +1,18 @@
-import { View, Text } from '@gluestack-ui/themed';
+import { VStack, ScrollView, Button, ButtonText } from '@gluestack-ui/themed';
 import { Link } from 'expo-router';
-import { Pressable } from 'react-native';
+import Calender from '@/components/Calender';
 
 export default function TabOneScreen() {
 	return (
-		<View>
-			<Text>Home</Text>
-			<Link href='/onboarding' asChild>
-				<Pressable>
-					<Text>Go to Onboarding</Text>
-				</Pressable>
-			</Link>
-		</View>
+		<ScrollView>
+			<VStack justifyContent='center' space='md'>
+				<Link href='/onboarding' asChild>
+					<Button width={150} alignSelf='center'>
+						<ButtonText>Sign Up</ButtonText>
+					</Button>
+				</Link>
+				<Calender />
+			</VStack>
+		</ScrollView>
 	);
 }
