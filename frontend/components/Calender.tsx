@@ -18,8 +18,6 @@ const Calender = () => {
 			}}
 			style={{
 				backgroundColor: 'white',
-				marginHorizontal: 20,
-				padding: 10,
 				borderRadius: 10,
 			}}
 		/>
