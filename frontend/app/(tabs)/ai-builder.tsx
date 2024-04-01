@@ -51,7 +51,7 @@ function NutritionScreen() {
 			};
 
 			const dietPlan = await axios.post(
-				`http://128.189.195.232:3000/create-diet-plan`,
+				`http://${process.env.EXPO_PUBLIC_IPv4_ADDRESS}:3000/create-diet-plan`,
 				JSON.stringify(userMacros),
 				{ headers },
 			);
@@ -120,7 +120,7 @@ function NutritionCard({ nutrition }: { nutrition: Nutrition }) {
 					return;
 				}
 				const imageResponse = await axios.get(
-					'http://128.189.195.232:3000/generate-diet-image',
+					`http://${process.env.EXPO_PUBLIC_IPv4_ADDRESS}:3000/generate-diet-image`,
 					{
 						params: {
 							instructions: nutrition.instructions,
@@ -210,7 +210,7 @@ function ExerciseScreen() {
 		};
 
 		const workoutPlan = await axios.post(
-			`http://128.189.195.232:3000/create-workout-plan`,
+			`http://${process.env.EXPO_PUBLIC_IPv4_ADDRESS}:3000/create-workout-plan`,
 			JSON.stringify(exerciseUserData),
 			{ headers },
 		);
