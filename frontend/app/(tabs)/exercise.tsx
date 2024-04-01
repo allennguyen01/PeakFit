@@ -6,6 +6,7 @@ import {
 	Card,
 	Image,
 	Box,
+	HStack,
 } from '@gluestack-ui/themed';
 
 import LinearProgressTracker from '@/components/LinearProgressTracker';
@@ -14,6 +15,7 @@ import * as React from 'react';
 import sampleExerciseData from '@/sample_data/sampleExerciseResponse';
 import getCurrentDateFormatted from '@/functions/getCurrentDateFormatted';
 import { exerciseTypeToImgURL } from '@/functions/imageMaps';
+import CompletionCheckbox from '@/components/CompletionCheckbox';
 
 export default function ExerciseScreen() {
 	const progressData = {
@@ -57,33 +59,38 @@ function WorkoutCard({ workout }: { workout: Workout }) {
 			variant='filled'
 			m='$3'
 			flexDirection='row'
-			gap='$4'
 			margin='$0'
 			maxWidth='$full'
 			display='flex'
+			justifyContent='space-between'
 			key={workout.name}
 		>
-			<Image
-				source={{
-					uri: exerciseTypeToImgURL[workout.name],
-				}}
-				alt={workout.name}
-				borderRadius={5}
-			/>
-			<VStack flexShrink={1} space='sm'>
-				<VStack>
-					<Heading size='lg' marginBottom='$0'>
-						{workout.name}
-					</Heading>
-					<Text fontWeight='$medium'>{workout.duration} minutes</Text>
-				</VStack>
+			<HStack gap='$4'>
+				<Image
+					source={{
+						uri: exerciseTypeToImgURL[workout.name],
+					}}
+					alt={workout.name}
+					borderRadius={5}
+				/>
+				<VStack flexShrink={1} space='sm'>
+					<VStack>
+						<Heading size='lg' marginBottom='$0'>
+							{workout.name}
+						</Heading>
+						<Text fontWeight='$medium'>
+							{workout.duration} minutes
+						</Text>
+					</VStack>
 
-				<Box flexDirection='row' flexShrink={1}>
-					<Text size='sm' maxWidth='auto'>
-						{workout.intensity} intensity
-					</Text>
-				</Box>
-			</VStack>
+					<Box flexDirection='row' flexShrink={1}>
+						<Text size='sm' maxWidth='auto'>
+							{workout.intensity} intensity
+						</Text>
+					</Box>
+				</VStack>
+			</HStack>
+			<CompletionCheckbox />
 		</Card>
 	);
 }

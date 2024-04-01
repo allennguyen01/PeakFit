@@ -17,6 +17,7 @@ import { Nutrition } from '@/types/types';
 import sampleNutritionData from '@/sample_data/sampleDietResponse';
 import { mealTypeToImgURL } from '@/functions/imageMaps';
 import getCurrentDateFormatted from '@/functions/getCurrentDateFormatted';
+import CompletionCheckbox from '@/components/CompletionCheckbox';
 
 export default function NutritionScreen() {
 	const progressData = {
@@ -58,38 +59,41 @@ function MealCard({ nutrition }: { nutrition: Nutrition }) {
 			variant='filled'
 			m='$3'
 			flexDirection='row'
-			gap='$4'
 			margin='$0'
 			maxWidth='$full'
 			display='flex'
 			alignItems='center'
+			justifyContent='space-between'
 			key={nutrition.mealType}
 		>
-			<Image
-				source={{
-					uri: mealTypeToImgURL[nutrition.mealType],
-				}}
-				alt={nutrition.mealType}
-				borderRadius={5}
-			/>
-			<VStack flexShrink={1} space='sm'>
-				<VStack>
-					<Heading size='lg' marginBottom='$0'>
-						{nutrition.mealType}
-					</Heading>
-					<Text fontWeight='$medium'>
-						{nutrition.totalCalories} calories
-					</Text>
-				</VStack>
+			<HStack gap='$4' maxWidth='$5/6' alignItems='center'>
+				<Image
+					source={{
+						uri: mealTypeToImgURL[nutrition.mealType],
+					}}
+					alt={nutrition.mealType}
+					borderRadius={5}
+				/>
+				<VStack flexShrink={1} space='sm'>
+					<VStack>
+						<Heading size='lg' marginBottom='$0'>
+							{nutrition.mealType}
+						</Heading>
+						<Text fontWeight='$medium'>
+							{nutrition.totalCalories} calories
+						</Text>
+					</VStack>
 
-				<Box flexDirection='row' flexShrink={1}>
-					<Text size='sm' maxWidth='auto'>
-						{nutrition.ingredients
-							.map((ing) => ing.food)
-							.join(', ')}
-					</Text>
-				</Box>
-			</VStack>
+					<Box flexDirection='row' flexShrink={1}>
+						<Text size='sm' maxWidth='auto'>
+							{nutrition.ingredients
+								.map((ing) => ing.food)
+								.join(', ')}
+						</Text>
+					</Box>
+				</VStack>
+			</HStack>
+			<CompletionCheckbox />
 		</Card>
 	);
 }
