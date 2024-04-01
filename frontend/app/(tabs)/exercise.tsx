@@ -9,52 +9,40 @@ import {
 } from '@gluestack-ui/themed';
 
 import LinearProgressTracker from '@/components/LinearProgressTracker';
+import { Workout } from '@/types/types';
+import * as React from 'react';
+import sampleExerciseData from '@/sample_data/sampleExerciseResponse';
+import getCurrentDateFormatted from '@/functions/getCurrentDateFormatted';
+import { exerciseTypeToImgURL } from '@/functions/imageMaps';
 
-export default function Exercise() {
-	const exercisePlan = {
+export default function ExerciseScreen() {
+	const progressData = {
 		progress: 30,
 		goal: 60,
-		date: 'Wednesday, Mar 6',
-		plan: [
-			{
-				name: 'Dumbbell Bench Press',
-				completed: true,
-				minutes: 15,
-				sets: 3,
-				reps: 10,
-				lbs: 50,
-			},
-			{
-				name: 'Incline Dumbbell Bench Press',
-				completed: true,
-				minutes: 15,
-				sets: 3,
-				reps: 12,
-				lbs: 35,
-			},
-			{
-				name: 'Dips',
-				completed: false,
-				minutes: 15,
-				sets: 3,
-				reps: 5,
-				lbs: 0,
-			},
-		],
 	};
+
+	const mondayBasedDayOfWeek = (new Date().getDay() + 6) % 7;
+
+	const [exercisePlan, setExercisePlan] = React.useState<Array<Workout>>([]);
+
+	React.useEffect(() => {
+		setExercisePlan(
+			sampleExerciseData.workoutPlan[mondayBasedDayOfWeek].workouts,
+		);
+	}, []);
 
 	return (
 		<ScrollView backgroundColor='white'>
 			<VStack margin={20} space='md'>
-				<LinearProgressTracker plan={exercisePlan} unit='Minutes' />
+				<LinearProgressTracker plan={progressData} unit='Minutes' />
 
 				<Heading size='2xl' textAlign='center'>
-					{exercisePlan.date}
+					{getCurrentDateFormatted()}
 				</Heading>
 
 				<VStack gap={12}>
-					{exercisePlan.plan.map((ex) => (
-						<ExericseCard exercise={ex} key={ex.name} />
+					{exercisePlan.map((workout) => (
+						<WorkoutCard workout={workout} key={workout.name} />
 					))}
 				</VStack>
 			</VStack>
@@ -62,7 +50,7 @@ export default function Exercise() {
 	);
 }
 
-function ExericseCard({ exercise }: { exercise: Exercise }) {
+function WorkoutCard({ workout }: { workout: Workout }) {
 	return (
 		<Card
 			size='md'
@@ -73,37 +61,29 @@ function ExericseCard({ exercise }: { exercise: Exercise }) {
 			margin='$0'
 			maxWidth='$full'
 			display='flex'
-			key={exercise.name}
+			key={workout.name}
 		>
 			<Image
 				source={{
-					uri: 'https://i0.wp.com/www.sidekickinteractive.com/wp-content/uploads/2023/04/placeholder-3.png',
+					uri: exerciseTypeToImgURL[workout.name],
 				}}
-				alt={exercise.name}
+				alt={workout.name}
+				borderRadius={5}
 			/>
 			<VStack flexShrink={1} space='sm'>
 				<VStack>
 					<Heading size='lg' marginBottom='$0'>
-						{exercise.name}
+						{workout.name}
 					</Heading>
-					<Text fontWeight='$medium'>{exercise.minutes} minutes</Text>
+					<Text fontWeight='$medium'>{workout.duration} minutes</Text>
 				</VStack>
 
 				<Box flexDirection='row' flexShrink={1}>
 					<Text size='sm' maxWidth='auto'>
-						{`${exercise.sets} sets • ${exercise.reps} reps • ${exercise.lbs} lbs`}
+						{workout.intensity} intensity
 					</Text>
 				</Box>
 			</VStack>
 		</Card>
 	);
-}
-
-interface Exercise {
-	name: string;
-	completed: boolean;
-	minutes: number;
-	sets: number;
-	reps: number;
-	lbs: number;
 }

@@ -22,16 +22,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { calculateMacros } from '@/functions/calculateMacros';
 import sampleNutritionData from '@/sample_data/sampleDietResponse';
 import sampleExerciseData from '@/sample_data/sampleExerciseResponse';
-import { getData } from '@/functions/AsyncStorage';
+import { getData, storeData } from '@/functions/AsyncStorage';
 import getMondayBasedWeek from '@/functions/getMondayBasedWeek';
+import { mealTypeToImgURL, exerciseDayToImgURL } from '@/functions/imageMaps';
+import { Nutrition, Exercise } from '@/types/types';
 
-function Nutrition() {
+function NutritionScreen() {
 	const [nutritionData, setNutritionData] = React.useState<Array<Nutrition>>(
 		[],
 	);
 
 	useEffect(() => {
-		setNutritionData(sampleNutritionData.dietPlan.meals);
+		setNutritionData(sampleNutritionData.dietPlan.meals as Nutrition[]);
+		storeData('nutritionPlan', sampleNutritionData.dietPlan.meals);
 	}, []);
 
 	async function getNutritionData() {
@@ -55,6 +58,7 @@ function Nutrition() {
 
 			console.log(dietPlan.data.dietPlan.meals);
 			setNutritionData(dietPlan.data.dietPlan.meals);
+			storeData('nutritionPlan', dietPlan.data.dietPlan.meals);
 		} catch (e) {
 			console.error(e);
 		}
@@ -131,14 +135,6 @@ function NutritionCard({ nutrition }: { nutrition: Nutrition }) {
 		})();
 	}, []);
 
-	const mealImageURL: { [key: string]: string } = {
-		Breakfast:
-			'https://www.eatingwell.com/thmb/-UULlbERQCfJRQTnb5bwjoo9-UQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/old-fashioned-oatmeal-hero-05-060861b81cb641cea272e068aba093fd.jpg',
-		Lunch: 'https://www.acouplecooks.com/wp-content/uploads/2022/01/Hummus-Bowl-016.jpg',
-		Dinner: 'https://www.eatingwell.com/thmb/brHFTvx40kZq844uGiitI4hWQKo=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/grilled-salmon-and-vegetables-with-charred-lemon-vinaigrette-a4d5a04715bf427d86fdbadea6272679.jpg',
-		Snack: 'https://static01.nyt.com/images/2018/07/18/dining/18YOGURT1/18YOGURT1-square640.jpg',
-	};
-
 	return (
 		<Card
 			size='md'
@@ -166,7 +162,7 @@ function NutritionCard({ nutrition }: { nutrition: Nutrition }) {
 			) : (
 				<Image
 					source={{
-						uri: mealImageURL[nutrition.mealType],
+						uri: mealTypeToImgURL[nutrition.mealType],
 					}}
 					alt={nutrition.mealType}
 					width={80}
@@ -196,30 +192,12 @@ function NutritionCard({ nutrition }: { nutrition: Nutrition }) {
 	);
 }
 
-interface Nutrition {
-	mealNumber: number;
-	mealType: string;
-	totalCalories: number;
-	instructions: string;
-	ingredients: Array<Ingredient>;
-}
-
-interface Ingredient {
-	food: string;
-	quantity: string;
-	calories: number;
-	macros: {
-		protein: string;
-		carbs: string;
-		fat: string;
-	};
-}
-
-function Exercise() {
+function ExerciseScreen() {
 	const [exerciseData, setExerciseData] = React.useState<Array<Exercise>>([]);
 
 	useEffect(() => {
 		setExerciseData(sampleExerciseData.workoutPlan);
+		storeData('exerciseplan', sampleExerciseData.workoutPlan);
 	}, []);
 
 	async function getExerciseData() {
@@ -239,6 +217,7 @@ function Exercise() {
 
 		const parsedWorkoutPlan = JSON.parse(workoutPlan.data).workoutPlan;
 		setExerciseData(parsedWorkoutPlan);
+		storeData('exerciseplan', sampleExerciseData.workoutPlan);
 	}
 
 	const mondayWeek = getMondayBasedWeek();
@@ -304,7 +283,7 @@ function ExerciseCard({ exercise }: { exercise: Exercise }) {
 		>
 			<Image
 				source={{
-					uri: 'https://i0.wp.com/www.sidekickinteractive.com/wp-content/uploads/2023/04/placeholder-3.png',
+					uri: exerciseDayToImgURL[exercise.day],
 				}}
 				alt={exercise.day}
 			/>
@@ -326,21 +305,9 @@ function ExerciseCard({ exercise }: { exercise: Exercise }) {
 	);
 }
 
-interface Exercise {
-	day: String;
-	workouts: Array<Workout>;
-}
-
-interface Workout {
-	name: string;
-	description: string;
-	duration: number;
-	intensity: string;
-}
-
 const renderScene = SceneMap({
-	first: Nutrition,
-	second: Exercise,
+	first: NutritionScreen,
+	second: ExerciseScreen,
 });
 
 export default function AIBuilder() {
