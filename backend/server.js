@@ -2,6 +2,7 @@ import express from "express";
 import OpenAIApi from "openai";
 import dotenv from "dotenv";
 import cors from "cors";
+import natural from 'natural';
 
 dotenv.config();
 
@@ -15,6 +16,20 @@ const openai = new OpenAIApi({
 // Middleware
 app.use(express.json());
 app.use(cors());
+
+app.post('/sentiment', (req, res) => {
+  if (!req.body || !req.body.str) {
+      return res.status(400).json({ error: "Missing 'str' field in request body" });
+  }
+
+  const text = req.body.str;
+
+  const words = text.split(/\s+/);
+  const analyzer = new natural.SentimentAnalyzer('English', null, 'afinn')
+  const score = analyzer.getSentiment(words);
+
+  res.json({ score: score });
+});
 
 app.get("/generate-diet-image", async (req, res) => {
   const { instructions } = req.query;
