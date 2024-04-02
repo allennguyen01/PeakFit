@@ -280,12 +280,14 @@ function ExerciseCard({ exercise }: { exercise: Exercise }) {
 			margin='$0'
 			maxWidth='$full'
 			display='flex'
+			alignItems='center'
 		>
 			<Image
 				source={{
 					uri: exerciseDayToImgURL[exercise.day],
 				}}
 				alt={exercise.day}
+				borderRadius={10}
 			/>
 			<VStack flexShrink={1} space='sm'>
 				<VStack>

@@ -25,6 +25,10 @@ const exerciseTypeToImgURL: { [key: string]: string } = {
 		'https://static.nike.com/a/images/f_auto/dpr_3.0,cs_srgb/w_363,c_limit/a4baaac3-01f0-4cf4-bad7-036a30f664bf/the-top-3-yoga-poses-to-get-stronger-according-to-experts.jpg',
 	'Treadmill Jogging':
 		'https://www.eatthis.com/wp-content/uploads/sites/4/2022/11/fit-man-beach-jogging.jpg?quality=82&strip=all',
+	'Interval Running':
+		'https://www.eatthis.com/wp-content/uploads/sites/4/2022/11/fit-man-beach-jogging.jpg?quality=82&strip=all',
+	'Core Strengthening Workout':
+		'https://hips.hearstapps.com/hmg-prod/images/core-workouts-at-home-1666192539.png?crop=1xw:0.8433652530779754xh;center,top&resize=1200:*',
 };
 
 export { mealTypeToImgURL, exerciseDayToImgURL, exerciseTypeToImgURL };

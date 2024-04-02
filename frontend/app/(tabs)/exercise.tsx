@@ -65,7 +65,7 @@ function WorkoutCard({ workout }: { workout: Workout }) {
 			justifyContent='space-between'
 			key={workout.name}
 		>
-			<HStack gap='$4'>
+			<HStack gap='$4' maxWidth='$5/6' alignItems='center'>
 				<Image
 					source={{
 						uri: exerciseTypeToImgURL[workout.name],
@@ -75,9 +75,7 @@ function WorkoutCard({ workout }: { workout: Workout }) {
 				/>
 				<VStack flexShrink={1} space='sm'>
 					<VStack>
-						<Heading size='lg' marginBottom='$0'>
-							{workout.name}
-						</Heading>
+						<Heading size='lg'>{workout.name}</Heading>
 						<Text fontWeight='$medium'>
 							{workout.duration} minutes
 						</Text>
